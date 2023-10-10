@@ -5,6 +5,8 @@ import Contact from "./pages/contact";
 import Home from "./pages/home";
 import Service from "./pages/service";
 import Login from "./pages/login";
+import Signup from "./pages/signup";
+import ForgotPassword from "./pages/forgotPass";
 import "./styles/App.css";
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="/service" element={<Service />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </BrowserRouter>
     </div>

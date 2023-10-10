@@ -11,6 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
 /* SideNav.css */
 
 .side-nav {
@@ -40,7 +41,6 @@ code {
   background-color: #555; /* Active option background color */
   font-weight: bold; /* Bold text for the active option */
 }
-/* Service.css */
 
 /* Service.css */
 
@@ -68,10 +68,12 @@ code {
 }
 
 .input {
-  border: 1px solid #887EE1;
-  box-shadow: .5px .5px .5px #887EE1, -.5px .5px .5px #887EE1, .5px -.5px .5px #887EE1, -1px -1px 1px #887EE1;
+  border: 1px solid #887ee1;
+  box-shadow: 0.5px 0.5px 0.5px #887ee1, -0.5px 0.5px 0.5px #887ee1,
+    0.5px -0.5px 0.5px #887ee1, -1px -1px 1px #887ee1;
   width: 50%;
 }
+
 /* Service.css */
 
 /* Center the form */
@@ -105,7 +107,7 @@ code {
 }
 
 .rounded-button:hover {
-  background-color:#035e55;
+  background-color: #035e55;
 }
 
 /* Style for headings */
@@ -151,7 +153,6 @@ code {
 /* Style for form label */
 label {
   font-weight: bold;
-  
 }
 
 /* Style for required asterisk */
@@ -165,7 +166,6 @@ label {
 @media (max-width: 768px) {
   /* Adjust styles for smaller screens here */
 }
-
 
 @media (min-width: 768px) {
   .sidebar {
