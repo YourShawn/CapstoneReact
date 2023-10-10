@@ -2,17 +2,21 @@
   padding: 0;
   margin: 0;
 }
+
 .section_heading {
   text-align: center;
   margin-bottom: 50px;
 }
+
 p {
   padding: 0;
   margin: 0;
 }
+
 img {
   max-width: 100%;
 }
+
 .banner {
   min-height: calc(100vh - (70px + 60px));
   background-size: cover;
@@ -23,6 +27,7 @@ img {
   justify-content: center;
   position: relative;
 }
+
 .banner::after {
   content: "";
   position: absolute;
@@ -32,6 +37,7 @@ img {
   width: 100%;
   height: 100%;
 }
+
 .banner h1 {
   position: relative;
   z-index: 1;
@@ -39,6 +45,7 @@ img {
   font-size: 50px;
   text-transform: uppercase;
 }
+
 .main {
   /* 100 viewport - (header height + footer height) */
   min-height: calc(100vh - (70px + 60px));
@@ -49,9 +56,11 @@ img {
 }
 
 /* =========== about css ====== */
+
 .about_section {
   padding: 50px 0;
 }
+
 .aboutPage_description p {
   color: #4a4a4a;
   line-height: 1.8;
@@ -61,23 +70,28 @@ img {
 .aboutPage_description .image img {
   border-radius: 10px;
 }
+
 .aboutPage .gallery {
   padding: 50px 0;
 }
+
 .aboutPage .gallery .gallery_image img {
   width: 100%;
   border-radius: 10px;
 }
+
 .aboutPage .directors .directors_wrap {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.aboutPage .directors .directors_wrap .single_img {
-  /* width: 100px;
-  height: 100px; */
-}
+
+/* .aboutPage .directors .directors_wrap .single_img {
+   width: 100px;
+  height: 100px; 
+} */
+
 .aboutPage .directors .directors_wrap img {
   flex-shrink: 0;
   object-fit: cover;
@@ -86,27 +100,37 @@ img {
   border-radius: 50%;
 }
 
-/* ==========login ========= */
-.login {
-  padding: 60px 0;
+/* Css for contact us page */
+
+.contact-us {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
 }
-.login_card {
-  padding: 3rem 2rem;
-  min-height: 100px;
-  border: 1px solid #6a6a6a;
-  margin: auto;
-  max-width: 500px;
-  background-color: #fff;
-  border-radius: 10px;
-}
-.login_card h4 {
+
+.contact-us h2 {
+  font-size: 34px;
+  margin-bottom: 20px;
   text-align: center;
 }
-.login_card button {
+
+.contact-us .form-group {
+  margin-bottom: 20px;
+}
+
+.contact-us .form-group label {
+  font-size: 16px;
+}
+
+.formLabel {
+  padding-bottom: 25px;
+}
+
+.contact-us .btn-primary {
   background-color: #00ab9b;
-  border: #00ab9b;
-  display: block;
-  text-align: center;
-  max-width: 80%;
-  margin: auto;
+  border: none;
+}
+
+.contact-us .btn-primary:hover {
+  background-color: #0056b3;
 }

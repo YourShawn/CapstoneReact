@@ -1,0 +1,71 @@
+/* CSS for Login & Signup & Forgot Password Page */
+
+.auth-container {
+  background-color: #d5ffd0;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-container h2 {
+  font-size: 34px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container .form-group {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  padding-bottom: 25px;
+}
+
+.auth-container .form-group label {
+  font-size: 16px;
+}
+
+.auth-container .btn-primary {
+  background-color: #00ab9b;
+  border: none;
+}
+
+.auth-container .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+#role-dropdown {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.click-link,
+.forget-password-link {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.click-link a,
+.forget-password-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.click-link a:hover,
+.forget-password-link a:hover {
+  text-decoration: underline;
+}
+
+.reset-success {
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+}
