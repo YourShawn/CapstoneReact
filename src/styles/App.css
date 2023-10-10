@@ -1,0 +1,112 @@
+.list {
+  padding: 0;
+  margin: 0;
+}
+.section_heading {
+  text-align: center;
+  margin-bottom: 50px;
+}
+p {
+  padding: 0;
+  margin: 0;
+}
+img {
+  max-width: 100%;
+}
+.banner {
+  min-height: calc(100vh - (70px + 60px));
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.banner::after {
+  content: "";
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.banner h1 {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 50px;
+  text-transform: uppercase;
+}
+.main {
+  /* 100 viewport - (header height + footer height) */
+  min-height: calc(100vh - (70px + 60px));
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========== about css ====== */
+.about_section {
+  padding: 50px 0;
+}
+.aboutPage_description p {
+  color: #4a4a4a;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.aboutPage_description .image img {
+  border-radius: 10px;
+}
+.aboutPage .gallery {
+  padding: 50px 0;
+}
+.aboutPage .gallery .gallery_image img {
+  width: 100%;
+  border-radius: 10px;
+}
+.aboutPage .directors .directors_wrap {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.aboutPage .directors .directors_wrap .single_img {
+  /* width: 100px;
+  height: 100px; */
+}
+.aboutPage .directors .directors_wrap img {
+  flex-shrink: 0;
+  object-fit: cover;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+}
+
+/* ==========login ========= */
+.login {
+  padding: 60px 0;
+}
+.login_card {
+  padding: 3rem 2rem;
+  min-height: 100px;
+  border: 1px solid #6a6a6a;
+  margin: auto;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.login_card h4 {
+  text-align: center;
+}
+.login_card button {
+  background-color: #00ab9b;
+  border: #00ab9b;
+  display: block;
+  text-align: center;
+  max-width: 80%;
+  margin: auto;
+}
