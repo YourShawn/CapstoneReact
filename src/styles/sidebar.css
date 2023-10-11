@@ -1,0 +1,42 @@
+/* sidebar.css */
+
+/* Sidebar container */
+.sidebar {
+  height: 100%;
+  background-color: #333; /* Background color for the sidebar */
+  color: #fff; /* Font color for the sidebar text */
+  padding: 20px;
+  float: left;
+}
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Set the sidebar container height to 100% of the viewport height */
+}
+
+.custom-nav .nav-link {
+  color: #fff; /* Set text color to white */
+  padding: 10px 20px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-nav .nav-link:hover {
+  background-color: #555; /* Change to the desired background color on hover */
+}
+
+/* Style for menu icons */
+.menu-icon {
+  margin-right: 10px; /* Add spacing between icon and menu name */
+}
+
+.active-link {
+  background-color: #555; /* Active option background color */
+  font-weight: bold; /* Bold text for the active option */
+}
+/* sidebar.css */
+/* Add this to override the styles */
+.sidebar .custom-nav .nav-link.active,
+.sidebar .custom-nav .nav-link.show {
+  color: inherit; /* Set the color to inherit to use the parent styles */
+}
