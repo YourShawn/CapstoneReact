@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/component/footer.css";
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer class="footer">
@@ -8,62 +9,61 @@ const Footer = () => {
           <div class="footer_col2">
             <h5>Site Links</h5>
             <ul className="list">
-              <a href="#">
+              <Link to="#">
                 <li>Home</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <li>About</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="/service">
                 <li>Service</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <li>Contact us</li>
-              </a>
+              </Link>
             </ul>
           </div>
           <div class="footer_col2">
             <h5>External links</h5>
             <ul className="list">
-              <a href="#">
+              <Link to="#">
                 <li>EMR</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <li>Pharmacy</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <li>Prescription Management</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <li>Appointment Management</li>
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <li>Our Doctors</li>
-              </a>
+              </Link>
             </ul>
           </div>
           <div class="footer_col1">
-            
             <h5 class="subline">An Expert in Health Care.</h5>
             <div class="address">
               <p>Conestoga College Kitchener, Doon Valley, Canada</p>
             </div>
             <div class="social_links">
-              <a href="#">
+              <Link to="#">
                 <img src="/icons/linkdin.svg" alt="" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <img src="/icons/facebook.svg" alt="" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <img src="/icons/twitter.svg" alt="" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <img src="/icons/insta.svg" alt="" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <img src="/icons/youtube.svg" alt="" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

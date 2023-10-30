@@ -1,0 +1,21 @@
+.dashboard_wrapper {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  display: flex;
+  --sidebarWidth: 220px;
+  @media (max-width: 991px) {
+    display: block;
+  }
+  .sidebar {
+    box-shadow: 10px 0px 10px -10px rgba(0, 0, 0, 0.18);
+    flex-basis: var(--sidebarWidth);
+    flex-shrink: 0;
+    @media (max-width: 991px) {
+      display: block;
+    }
+  }
+  .dashboard_content {
+    flex-grow: 1;
+    padding: 1rem;
+  }
+}
