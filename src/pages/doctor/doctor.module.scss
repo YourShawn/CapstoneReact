@@ -1,0 +1,57 @@
+@mixin cardShadow {
+  border-radius: 8px;
+  box-shadow: 0 0 18px -10px rgba(70, 76, 98, 0.35);
+  background-color: #fff;
+}
+.doctorName {
+  @include cardShadow;
+  margin-bottom: 20px;
+  padding: 1rem;
+  background-color: "white";
+  h5 {
+    color: #035e55; // Text color
+    margin: 0;
+  }
+}
+.dash_card {
+  @include cardShadow;
+  align-items: center;
+  color: #525252;
+  cursor: pointer;
+  display: flex;
+  gap: 1.6rem;
+  min-height: 120px;
+  padding: 1rem 1.5rem;
+  transition: 0.15s linear;
+  h3 {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 700;
+  }
+  h5 {
+    color: #828282;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}
+.dash_cardImg {
+  align-items: center;
+  background-color: rgba(#035e55, 0.1);
+  border-radius: 50%;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  width: 60px;
+  svg {
+    color: #035e55;
+    font-size: 1.5em;
+  }
+}
+
+.dash_graph {
+  @include cardShadow;
+  padding: 1rem;
+  h5 {
+    margin: 0;
+  }
+}

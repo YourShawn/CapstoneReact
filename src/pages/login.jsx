@@ -14,7 +14,7 @@ const Login = () => {
 
   return (
     <div>
-      <Header />;
+      <Header />
       <main className="main">
         <div className="heading auth-container">
           <h2>Login</h2>

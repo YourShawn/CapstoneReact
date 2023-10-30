@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap");
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif; */
+  font-family: "Outfit", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,163 +14,14 @@ code {
     monospace;
 }
 
-/* SideNav.css */
-
-.side-nav {
-  width: 200px; /* Adjust the width as needed */
-  background-color: #333; /* Background color for the side nav */
-  color: #fff; /* Text color */
-  float: left; /* Float the side nav to the left */
-}
-
-.side-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0; /* Remove default margin to prevent spacing */
-}
-
-.side-nav li {
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.side-nav li:hover {
-  background-color: #555; /* Hover background color */
-}
-
-.side-nav li.active {
-  background-color: #555; /* Active option background color */
-  font-weight: bold; /* Bold text for the active option */
-}
-
-/* Service.css */
-
-.service-page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Set the height of the service page to 100% of the viewport height */
-}
-
-.content-container {
-  display: flex;
-  flex-grow: 1;
-}
-
-.sidebar {
-  width: 200px; /* Adjust the width as needed */
-  background: #333; /* Background color for the side nav */
-  color: #fff; /* Text color */
-}
-
 .content {
   flex-grow: 1;
   padding: 20px;
   background-color: #f4f4f4; /* Background color for the content area */
 }
 
-.input {
-  border: 1px solid #887ee1;
-  box-shadow: 0.5px 0.5px 0.5px #887ee1, -0.5px 0.5px 0.5px #887ee1,
-    0.5px -0.5px 0.5px #887ee1, -1px -1px 1px #887ee1;
-  width: 50%;
-}
-
-/* Service.css */
-
-/* Center the form */
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Style for rounded input fields */
-.rounded-input {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  width: 100%;
-  margin-bottom: 15px; /* Added more space between fields */
-  box-sizing: border-box; /* Ensure padding doesn't affect width */
-}
-
-/* Style for rounded button */
-.rounded-button {
-  background-color: #035e55;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  margin-top: 15px; /* Added space between button and last field */
-}
-
-.rounded-button:hover {
-  background-color: #035e55;
-}
-
 /* Style for headings */
 .heading h3 {
   font-size: 24px;
   margin-bottom: 20px;
-}
-
-/* Style for form container */
-.patient-management-form {
-  max-width: 500px;
-  width: 100%;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  margin-bottom: 15px; /* Added space between form and next content */
-}
-
-/* Style for select input */
-.rounded-select {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  width: 100%;
-  margin-bottom: 15px; /* Added more space between select inputs */
-  appearance: none; /* Remove default arrow in select */
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%234B5563' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right center;
-}
-
-/* Style for textarea */
-.rounded-textarea {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  width: 100%;
-  margin-bottom: 15px; /* Added more space between textareas */
-  resize: vertical; /* Allow vertical resizing */
-}
-
-/* Style for form label */
-label {
-  font-weight: bold;
-}
-
-/* Style for required asterisk */
-.required::before {
-  content: "*";
-  color: red;
-  margin-right: 5px;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  /* Adjust styles for smaller screens here */
-}
-
-@media (min-width: 768px) {
-  .sidebar {
-    flex: 0 0 200px;
-  }
 }

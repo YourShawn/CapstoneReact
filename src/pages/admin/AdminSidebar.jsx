@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../../component/header";
 import Footer from "../../component/footer";
 import "../../styles/sidebar.css";
 import { Container, Row, Col, Nav, Navbar } from "react-bootstrap";
@@ -15,13 +14,13 @@ import {
 } from "react-bootstrap-icons";
 
 // Import individual content components
-import DashboardContent from "./doctorDashboard";
-import Appointment from "./Appointment";
-import Patients from "./Patients";
-import Messeges from "./Messeges";
-import Medication from "./Medication";
-import DoctorDocuments from "./Documents";
-import Settings from "./settings";
+import DashboardContent from "./AdminDashboard";
+import Appointment from "./AdminAppointment";
+import Patients from "./AdminPatients";
+import Doctors from "./AdminDoctors";
+// import Medication from "./Medication";
+// import DoctorDocuments from "./Documents";
+// import Settings from "./settings";
 
 
 function Sidebar() {
@@ -36,16 +35,15 @@ function Sidebar() {
     dashboard: <DashboardContent />,
     appointments: <Appointment />,
     patients: <Patients />,
-    messages: <Messeges />,
-    medications: <Medication />,
-    documents: <DoctorDocuments />,
-    settings: <Settings />
-    
+    doctors: <Doctors />,
+    // medications: <Medication />,
+    // documents: <DoctorDocuments />,
+    // settings: <Settings />
   };
 
   return (
     <div className="sidebar-container">
-      <Header />
+      {/* <Header /> */}
       <Container fluid>
         <Row>
           {/* Vertical Navbar */}
@@ -57,49 +55,63 @@ function Sidebar() {
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("dashboard")}
-                    className={activeMenuItem === "dashboard" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "dashboard" ? "active-link" : ""
+                    }
                   >
                     <HouseDoorFill /> Dashboard
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("appointments")}
-                    className={activeMenuItem === "appointments" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "appointments" ? "active-link" : ""
+                    }
                   >
                     <Calendar /> Appointments
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("patients")}
-                    className={activeMenuItem === "patients" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "patients" ? "active-link" : ""
+                    }
                   >
                     <Person /> Patients
                   </Nav.Link>
                   <Nav.Link
                     href="#"
-                    onClick={() => handleMenuItemClick("messages")}
-                    className={activeMenuItem === "messages" ? "active-link" : ""}
+                    onClick={() => handleMenuItemClick("doctors")}
+                    className={
+                      activeMenuItem === "doctors" ? "active-link" : ""
+                    }
                   >
-                    <ChatSquareDots /> Messages
+                    <ChatSquareDots /> Doctors
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("medications")}
-                    className={activeMenuItem === "medications" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "medications" ? "active-link" : ""
+                    }
                   >
                     <Capsule /> Medications
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("documents")}
-                    className={activeMenuItem === "documents" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "documents" ? "active-link" : ""
+                    }
                   >
                     <FileEarmarkText /> Documents
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("settings")}
-                    className={activeMenuItem === "settings" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "settings" ? "active-link" : ""
+                    }
                   >
                     <Gear /> Settings
                   </Nav.Link>

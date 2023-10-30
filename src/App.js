@@ -2,13 +2,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/about";
 import Contact from "./pages/contact";
-import Home from "./pages/home";
-import Service from "./pages/service";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
+import DoctorPanel from "./pages/doctor";
 import ForgotPassword from "./pages/forgotPass";
-import Sidebar from "./pages/doctor/Sidebar"; 
-import PSidebar from "./pages/patient/Sidebar";
+import AdminSideBar from "./pages/admin/AdminSidebar"
+import Home from "./pages/home";
+import Login from "./pages/login";
+import PatientPanel from "./pages/patient";
+import Service from "./pages/service";
+import Signup from "./pages/signup";
 import "./styles/App.css";
 
 function App() {
@@ -23,8 +24,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/sidebar" element={<Sidebar />}></Route>
-          <Route path="/psidebar" element={<PSidebar />}></Route>
+          <Route path="/doctor-dashboard" element={<DoctorPanel />}></Route>
+          <Route path="/patient-dashboard" element={<PatientPanel />}></Route>
+          <Route path="/admin" element={<AdminSideBar />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
