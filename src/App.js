@@ -9,6 +9,7 @@ import Signup from "./pages/signup";
 import ForgotPassword from "./pages/forgotPass";
 import Sidebar from "./pages/doctor/Sidebar"; 
 import PSidebar from "./pages/patient/Sidebar";
+import AdminSideBar from "./pages/admin/AdminSidebar";
 import "./styles/App.css";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/sidebar" element={<Sidebar />}></Route>
           <Route path="/psidebar" element={<PSidebar />}></Route>
+          <Route path="/admin" element={<AdminSideBar />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
