@@ -4,12 +4,13 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import DoctorPanel from "./pages/doctor";
 import ForgotPassword from "./pages/forgotPass";
-import AdminSideBar from "./pages/admin/AdminSidebar"
+import AdminSideBar from "./pages/admin/AdminSidebar";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import PatientPanel from "./pages/patient";
 import Service from "./pages/service";
 import Signup from "./pages/signup";
+import Profile from "./pages/profile";
 import "./styles/App.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/doctor-dashboard" element={<DoctorPanel />}></Route>
           <Route path="/patient-dashboard" element={<PatientPanel />}></Route>
