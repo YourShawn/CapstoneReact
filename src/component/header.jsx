@@ -32,6 +32,7 @@ const Header = () => {
               <NavLink to="/contact">Contact us</NavLink>
               <NavLink to="/login">Login</NavLink>
               <NavLink to="/signup">Sign Up</NavLink>
+              <NavLink to="/profile">Profile</NavLink>
               <NavLink to="/doctor-dashboard">Doctor Dashboard</NavLink>
               <NavLink to="/patient-dashboard">Patient Dashboard</NavLink>
             </nav>
