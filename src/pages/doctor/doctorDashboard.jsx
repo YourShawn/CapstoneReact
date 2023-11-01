@@ -1,13 +1,14 @@
-import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { PersonFill, Calendar } from "react-bootstrap-icons";
 import { BarChart } from "@mui/x-charts/BarChart";
 import styles from "./doctor.module.scss";
+import DoctorService from "../../services/doctorservices";
 
 const SingleCard = ({ icon, title, count }) => {
   return (
-    <div class={styles.dash_card}>
-      <div class={styles.dash_cardImg}>{icon}</div>
+    <div className={styles.dash_card}>
+      <div className={styles.dash_cardImg}>{icon}</div>
       <div>
         <h3>{count}</h3>
         <h5>{title}</h5>
@@ -17,6 +18,27 @@ const SingleCard = ({ icon, title, count }) => {
 };
 
 function DashboardContent() {
+  const [counts, setCounts] = useState({ patientCount: 0, appointmentCount: 0 });
+
+  useEffect(() => {
+    // Use the DoctorService to fetch patient count
+    DoctorService.getPatientList()
+      .then((response) => {
+        setCounts((prevCounts) => ({ ...prevCounts, patientCount: response.data.data.length }));
+      })
+      .catch((error) => {
+        console.error("Error fetching patient count:", error);
+      });
+
+    DoctorService.getAppointmentList()
+      .then((response) => {
+        setCounts((prevCounts) => ({ ...prevCounts, appointmentCount: response.data.data.length }));
+      })
+      .catch((error) => {
+        console.error("Error fetching appointment count:", error);
+      });
+  }, []);
+
   return (
     <Container>
       {/* Welcome Message */}
@@ -28,11 +50,11 @@ function DashboardContent() {
       <Row>
         {/* Total Patients */}
         <Col md={6} className="mb-4">
-          <SingleCard title="Total Employs" count={43} icon={<PersonFill />} />
+          <SingleCard title="Patients" count={counts.patientCount} icon={<PersonFill />} />
         </Col>
         {/* Total Appointments */}
         <Col md={6} className="mb-4">
-          <SingleCard title="Appointments" count={32} icon={<Calendar />} />
+          <SingleCard title="Appointments" count={counts.appointmentCount} icon={<Calendar />} />
         </Col>
       </Row>
       <div className={styles.dash_graph}>
