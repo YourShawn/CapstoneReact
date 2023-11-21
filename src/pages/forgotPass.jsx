@@ -7,8 +7,33 @@ import "../styles/auth.css";
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isRequestSent, setIsRequestSent] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isVerificationCodeEntered, setIsVerificationCodeEntered] =
+    useState(false);
 
-  const handleNewPass = () => {};
+  const handleNewPass = () => {
+    // Assuming you have a function to send a reset password email here
+    // sendResetPasswordEmail(email);
+
+    // For the sake of the example, let's simulate the email sending
+    setTimeout(() => {
+      setIsRequestSent(true);
+    }, 1000);
+  };
+
+  const handleUpdatePassword = () => {
+    // Handle updating the password with the verification code
+    // updatePassword(email, verificationCode);
+
+    // For the sake of the example, let's simulate the password update
+    setTimeout(() => {
+      // Clear the form after updating the password
+      setEmail("");
+      setVerificationCode("");
+      setIsRequestSent(false);
+      setIsVerificationCodeEntered(false);
+    }, 1000);
+  };
 
   return (
     <div>
@@ -29,7 +54,26 @@ function ForgotPassword() {
               </Form.Group>
 
               <Button variant="primary" onClick={handleNewPass}>
-                Reset Password
+                Submit
+              </Button>
+            </Form>
+          ) : !isVerificationCodeEntered ? (
+            <Form>
+              <Form.Group className="formLabel" controlId="verificationCode">
+                <Form.Label>Verification Code</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter verification code"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button
+                variant="primary"
+                onClick={() => setIsVerificationCodeEntered(true)}
+              >
+                Update Password
               </Button>
             </Form>
           ) : (
