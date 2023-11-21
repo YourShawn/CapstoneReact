@@ -7,6 +7,7 @@ import {
   FileEarmarkText,
   Gear,
   HouseDoorFill,
+  CreditCard
 } from "react-bootstrap-icons";
 import Footer from "../../component/footer";
 import Header from "../../component/header";
@@ -15,9 +16,13 @@ import styles from "../../styles/pages/dashboard.module.scss";
 import Appointment from "./Appointment";
 import PatientDashboard from "./PatientDashboard";
 import Sidebar from "../../component/sidebar";
+import Payments from "./payments";
+import App from "./pastPrescriptions";
 
 const PatientPanel = () => {
   const [activeList, setActiveList] = useState("dashboard");
+  
+
 
   const sidebarOptions = [
     {
@@ -29,6 +34,11 @@ const PatientPanel = () => {
       id: "appointments",
       navIcon: <Calendar />,
       navText: "appointments",
+    },
+    {
+      id: "payments",
+      navIcon: <CreditCard />,
+      navText: "payments",
     },
     {
       id: "prescriptions",
@@ -59,6 +69,8 @@ const PatientPanel = () => {
   const menuContent = {
     dashboard: <PatientDashboard />,
     appointments: <Appointment />,
+    payments: <Payments />,
+    prescriptions: <App/>
     // prescriptions: <Patients />,
     // messages: <Messeges />,
     // documents: <DoctorDocuments />,
