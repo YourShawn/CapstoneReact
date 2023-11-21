@@ -154,3 +154,39 @@ img {
 .btn-primary {
   background-color: #00ab9b;
 }
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
+
+.profile-grid {
+  max-width: 600px; 
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  margin-right: 16px;
+}
+
+.choose-file-label {
+  cursor: pointer;
+  color: #1976d2;
+  margin-top: 8px;
+  display: block;
+}
+
+.choose-file-label input {
+  display: none;
+}

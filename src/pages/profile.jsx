@@ -1,6 +1,5 @@
-import { Avatar, TextField, Grid, Typography, Link } from "@mui/material";
-import Button from "@mui/material/Button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Avatar, TextField, Grid, Button } from "@mui/material";
 import Footer from "../component/footer";
 import Header from "../component/header";
 
@@ -17,12 +16,33 @@ function Profile() {
   const [disable, setDisable] = useState(true);
   const [changePasswordMode, setChangePasswordMode] = useState(false);
   const [user, setUser] = useState({
-    fullname: "John Doe",
-    email: "john@doe.com",
-    password: "********", // This should be securely handled in a real application
-    phoneNumber: "123-456-7890",
-    role: "User",
+    fullName: "",
+    emailAddress: "",
+    password: "",
+    phoneNumber: "",
+    role: "",
+    profilePicture: "",
   });
+
+  const [loading, setLoading] = useState(true);
+
+  const fetchUserData = () => {
+    fetch("http://localhost:8080/register/getUserData")
+      .then((response) => response.json())
+      .then((data) => {
+        const userData = data.length > 0 ? data[0] : {};
+        setUser(userData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const [newPasswordEmail, setNewPasswordEmail] = useState("");
 
@@ -39,9 +59,23 @@ function Profile() {
   };
 
   const handleSendLinkClick = () => {
-    //  logic to send a password reset link to the provided email address
     console.log(`Send link to ${newPasswordEmail}`);
   };
+
+  const handleProfilePictureChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUser((prevUser) => ({ ...prevUser, profilePicture: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -51,9 +85,25 @@ function Profile() {
           <Grid container gap={"24px"}>
             <Grid item sm={12}>
               <div className="profile-header">
-                <Avatar className="profile-image">
-                  {getInitials(user.fullname)}
-                </Avatar>
+                <Avatar
+                  className="profile-image"
+                  src={user.profilePicture}
+                  sx={{ width: 150, height: 150 }}
+                />
+                {!disable && (
+                  <label htmlFor="profile-picture-input">
+                    <input
+                      id="profile-picture-input"
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleProfilePictureChange}
+                    />
+                    <Button variant="outlined" component="span">
+                      Choose File
+                    </Button>
+                  </label>
+                )}
               </div>
             </Grid>
 
@@ -74,28 +124,26 @@ function Profile() {
                 gap={"24px"}
               >
                 <Grid item xs={12}>
-                  
-                    <TextField
-                      id="password"
-                      label="Password"
-                      type="password"
-                      value={user.password}
-                      disabled={disable}
-                    />
+                  <TextField
+                    id="password"
+                    label="Password"
+                    type="password"
+                    value={user.password}
+                    disabled={disable}
+                  />
 
-                    <Typography
-                      component={Link}
-                      variant="body1"
-                      onClick={handlePasswordChangeClick}
-                      style={{ cursor: "pointer", paddingLeft: "8px" }}
-                    >
-                      Change Password
-                    </Typography>
-                  
+                  {/*  <Typography
+                    component={Link}
+                    variant="body1"
+                    onClick={handlePasswordChangeClick}
+                    style={{ cursor: "pointer", paddingLeft: "8px" }}
+                  >
+                    Change Password
+                  </Typography> */}
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item sm={12}>
+            {/* <Grid item sm={12}>
               {changePasswordMode && (
                 <div>
                   <TextField
@@ -116,13 +164,13 @@ function Profile() {
                   </Grid>
                 </div>
               )}
-            </Grid>
+            </Grid> */}
 
             <Grid item sm={12}>
               <TextField
                 id="email"
                 label="Email Address"
-                value={user.email}
+                value={user.emailAddress}
                 disabled={disable}
               />
             </Grid>
