@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, FormControl, Row, Col } from "react-bootstrap";
+import { Table, Container, FormControl, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DoctorService from "../../services/doctorservices";
 import ReactPaginate from "react-paginate";
+import AddPatient from "./AddPatient";
+
 
 function calculateAge(dateOfBirth) {
   const birthDate = new Date(dateOfBirth);
@@ -23,9 +25,13 @@ function calculateAge(dateOfBirth) {
 
 function Patients() {
   const [patientsData, setPatientsData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Display 10 items per page
   const [searchTerm, setSearchTerm] = useState("");
+  const [showAddPatientModal, setShowAddPatientModal] = useState(false);
+
+  const handleShowAddPatientModal = () => setShowAddPatientModal(true);
+  const handleCloseAddPatientModal = () => setShowAddPatientModal(false);
 
   useEffect(() => {
     DoctorService.getPatientList()
@@ -37,10 +43,8 @@ function Patients() {
       });
   }, []);
 
-  // Calculate the index of the last item to be displayed
-  const indexOfLastItem = (currentPage + 1) * itemsPerPage;
-  // Calculate the index of the first item to be displayed
-  const indexOfFirstItem = currentPage * itemsPerPage;
+
+  
 
   // Filter the data based on the search term
   const filteredData = patientsData.filter((patient) => {
@@ -48,16 +52,47 @@ function Patients() {
     return fullName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  // Get the current page of data
-  const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
+  };
+
+  const handleAddPatientClick = () => {
+    handleShowAddPatientModal();
+  };
+
+  const handleAddPatientSubmit = (formData) => {
+    // Add logic to submit patient data to the server
+    // and update the state accordingly
+    // For example, DoctorService.addPatient(formData)
+    //   .then((response) => {
+    //     // Update state or fetch updated patient list
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error adding patient:", error);
+    //   });
+
+    // For now, just close the modal
+    handleCloseAddPatientModal();
   };
 
   return (
     <Container>
       <h2 className="my-4">Welcome to Doctor Dashboard</h2>
+
+      <Row className="mb-4">
+        <Col md={12} className="d-flex justify-content-end">
+          {/* Add Patient Button */}
+          <Button variant="success" onClick={handleAddPatientClick}>
+            Add Patient
+          </Button>
+        </Col>
+      </Row>
+
+      <AddPatient
+        show={showAddPatientModal}
+        handleClose={handleCloseAddPatientModal}
+        handleAddPatientSubmit={handleAddPatientSubmit}
+      />
 
       <Row className="mb-4">
         <Col md={6} className="d-flex justify-content-end">
@@ -67,6 +102,7 @@ function Patients() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Col>
+
       </Row>
 
       <Table striped bordered hover className="my-4">
@@ -80,7 +116,7 @@ function Patients() {
           </tr>
         </thead>
         <tbody>
-          {currentData.map((patient) => (
+          {filteredData.map((patient) => (
             <tr key={patient.patientId}>
               <td>{patient.patientId}</td>
               <td>{`${patient.firstName} ${patient.lastName}`}</td>
@@ -96,10 +132,18 @@ function Patients() {
 
       {/* Pagination with react-paginate */}
       <Row className="mb-4">
-        <Col md={12} className="d-flex justify-content-end">
+        <Col md={6}>
+          {/* Showing X to Y of Z entries */}
+          <p>
+
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage,
+              filteredData.length)} of {filteredData.length} entries
+          </p>
+        </Col>
+        <Col md={6} className="d-flex justify-content-end">
           <ReactPaginate
-            previousLabel={"<"} 
-            nextLabel={">"} 
+            previousLabel={"<"}
+            nextLabel={">"}
             breakLabel={"..."}
             pageCount={Math.ceil(filteredData.length / itemsPerPage)}
             marginPagesDisplayed={2}

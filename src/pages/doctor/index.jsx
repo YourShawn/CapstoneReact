@@ -9,6 +9,7 @@ import {
   HouseDoorFill,
   Person,
 } from "react-bootstrap-icons";
+import { useParams, Routes, Route } from "react-router-dom";
 import Footer from "../../component/footer";
 import Header from "../../component/header";
 import styles from "../../styles/pages/dashboard.module.scss";
@@ -21,9 +22,11 @@ import Messeges from "./Messeges";
 import Patients from "./Patients";
 import DashboardContent from "./doctorDashboard";
 import Settings from "./settings";
+import AddPatient from "./AddPatient";
 
 function DoctorPanel() {
-  const [activeList, setActiveList] = useState("dashboard");
+  const { page = "dashboard" } = useParams(); // Set default value for page
+  const [activeList, setActiveList] = useState(page);
 
   const sidebarOptions = [
     {
@@ -40,6 +43,10 @@ function DoctorPanel() {
       id: "patients",
       navIcon: <Person />,
       navText: "patients",
+      subNav: [
+        { id: "patient-list", text: "Patient List", to: "/doctor/patients" },
+        { id: "add-patient", text: "Add Patient", to: "/doctor/patients/add-patient" },
+      ],
     },
     {
       id: "messages",
@@ -70,11 +77,17 @@ function DoctorPanel() {
   const menuContent = {
     dashboard: <DashboardContent />,
     appointments: <Appointment />,
-    patients: <Patients />,
+    patients: (
+      <Routes>
+        <Route path="/" element={<Patients />} />
+        <Route path="add-patient" element={<AddPatient />} />
+      </Routes>
+    ),
     messages: <Messeges />,
     medications: <Medication />,
     documents: <DoctorDocuments />,
     settings: <Settings />,
+    "add-patient": <AddPatient />,
   };
 
   const handleNavClick = (id) => {
