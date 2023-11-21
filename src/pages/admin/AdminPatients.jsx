@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Container } from "react-bootstrap";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom for navigation
-
+import {Pagination} from "antd"
+import dayjs from 'dayjs'
 function Patients() {
-  // Sample patient data (replace with actual data)
-  const patientsData = [
-    { id: 1, patientName: "John Doe", age: 30, gender: "Male" },
-    { id: 2, patientName: "Jane Smith", age: 25, gender: "Female" },
-    // Add more patient entries here
-  ];
+    const [current, setCurrent] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [patientsData, setPatientsData] = useState([
+      { id: 1, patientName: "John Doe", age: 30, gender: "Male" },
+      { id: 2, patientName: "Jane Smith", age: 25, gender: "Female" },
+    ]);
+
+    async function findPatientPage(pageNum) {
+      const responseDoctor = await fetch(
+        "http://localhost:8080/patients/findPage?pageSize=10&pageNum=" +
+          pageNum
+      );
+      const responseDoctorData = await responseDoctor.json();
+      setPatientsData(responseDoctorData.data.list);
+      setTotalPage(responseDoctorData.data.total);
+    }
+
+    const onChange = (page) => {
+      console.log(page);
+      setCurrent(page);
+      findPatientPage(page - 1);
+    };
+
+
+  useEffect(()=>{
+    findPatientPage(0);
+  },[])
 
   return (
     <Container>
-
       <h3>Patients</h3>
       <Table striped bordered hover>
         <thead>
@@ -25,19 +46,24 @@ function Patients() {
           </tr>
         </thead>
         <tbody>
-          {patientsData.map((patient) => (
-            <tr key={patient.id}>
-              <td>{patient.id}</td>
-              <td>{patient.patientName}</td>
-              <td>{patient.age}</td>
-              <td>{patient.gender}</td>
-              <td>
-                <Link to={`/patient/${patient.id}`}>View Details</Link>
-              </td>
-            </tr>
-          ))}
+          {patientsData &&
+            patientsData.map((patient, index) => (
+              <tr key={index}>
+                <td>{patient.patientId}</td>
+                <td>{patient.firstName + " " + patient.lastName}</td>
+                <td>
+                  {patient.dateOfBirth &&
+                    dayjs().diff(dayjs(patient.dateOfBirth), "year")}
+                </td>
+                <td>{patient.gender}</td>
+                <td>
+                  <Link to={`patient/${patient.patientId}`}>View Details</Link>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
+      <Pagination current={current} onChange={onChange} total={totalPage} />
     </Container>
   );
 }

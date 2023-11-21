@@ -13,6 +13,7 @@ import {
   BoxArrowRight,
 } from "react-bootstrap-icons";
 
+
 // Import individual content components
 import DashboardContent from "./AdminDashboard";
 import Appointment from "./AdminAppointment";
