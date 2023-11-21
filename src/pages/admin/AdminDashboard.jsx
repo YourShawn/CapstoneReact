@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import {
   PersonFill,
@@ -9,6 +9,31 @@ import {
 import { BarChart } from '@mui/x-charts/BarChart';
 
 function DashboardContent() {
+  const[onlineDoctorTotal,setOnlineDoctorTotal] = useState(0)
+  const [appointmentTotal, setAppointmentTotal] = useState(0);
+  const [patientTotal, setPatientTotal] = useState(0);
+  const [appointmentYear, setAppointmentYear] = useState([
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+  ]);
+  const [appointmentCount, setAppointmentCount] = useState([
+    150, 200, 500, 300, 900
+  ]);
+
+   const [prescriptionYear, setPrescriptionYear] = useState([
+     "2020",
+     "2021",
+     "2022",
+     "2023",
+     "2024",
+   ]);
+   const [prescriptionCount, setPrescriptionCount] = useState([
+     150, 200, 500, 300, 900,
+   ]);
+
   const bigNumberStyle = {
     fontSize: "36px", // Adjust the font size as needed
     fontWeight: "bold",
@@ -23,6 +48,69 @@ function DashboardContent() {
     backgroundColor: "white", // Background color
     padding: "10px",          // Padding for better contrast
   };
+  async function getTotalData() {
+    const responseDoctor = await fetch("http://localhost:8080/doctors/findPage?pageSize=1");
+    const responseDoctorData = await responseDoctor.json();
+    setOnlineDoctorTotal(responseDoctorData.data.total);
+
+    const responseAppointment = await fetch(
+      "http://localhost:8080/appointments/findPage?pageSize=1"
+    );
+    const responseAppointmentData = await responseAppointment.json();
+    setAppointmentTotal(responseAppointmentData.data.total);
+    
+    const responsePatients = await fetch(
+      "http://localhost:8080/patients/findPage?pageSize=1"
+    );
+    const responsePatientsData = await responsePatients.json();
+    setPatientTotal(responsePatientsData.data.total);
+
+  }
+
+   async function getGroupData() {
+
+    const findGroupDays = await fetch(
+      "http://localhost:8080/appointments/findGroupDays"
+    );
+    const findGroupDaysData = await findGroupDays.json();
+    if (findGroupDaysData.data) {
+      let appoints= [];
+      let count = [];
+      findGroupDaysData.data.map((item)=>{
+          appoints.push(item.day.substring(5, 10));
+          count.push(item.count);
+      })
+      setAppointmentYear(appoints);
+      setAppointmentCount(count);
+    }
+
+
+    const findGroupAppointmentYear = await fetch(
+      "http://localhost:8080/prescriptions/findGroupYear"
+    );
+    const findGroupAppointmentYearData = await findGroupAppointmentYear.json();
+    if (findGroupAppointmentYearData.data) {
+      let years = [];
+      let count = [];
+      findGroupAppointmentYearData.data.map((item) => {
+        years.push(item.year);
+        count.push(item.count);
+      });
+      setPrescriptionYear(years);
+      setPrescriptionCount(count);
+    }
+    console.log(findGroupAppointmentYearData.data);
+
+
+
+   }
+
+
+  useEffect(()=>{
+    getTotalData();
+    getGroupData();
+
+  },[])
 
   return (
     <Container>
@@ -46,7 +134,7 @@ function DashboardContent() {
               <div style={smallLabelStyle}>
                 <PersonLinesFill size={20} /> Online Doctors
               </div>
-              <div style={bigNumberStyle}>2989</div>
+              <div style={bigNumberStyle}>{onlineDoctorTotal}</div>
             </Card.Body>
           </Card>
         </Col>
@@ -58,7 +146,7 @@ function DashboardContent() {
               <div style={smallLabelStyle}>
                 <PersonFill size={20} /> Patients
               </div>
-              <div style={bigNumberStyle}>123</div>
+              <div style={bigNumberStyle}>{patientTotal}</div>
             </Card.Body>
           </Card>
         </Col>
@@ -70,7 +158,7 @@ function DashboardContent() {
               <div style={smallLabelStyle}>
                 <Calendar size={20} /> Today Appointments
               </div>
-              <div style={bigNumberStyle}>456</div>
+              <div style={bigNumberStyle}>{appointmentTotal}</div>
             </Card.Body>
           </Card>
         </Col>
@@ -95,13 +183,13 @@ function DashboardContent() {
                 xAxis={[
                   {
                     id: "barCategories",
-                    data: ["2020", "2021", "2022", "2023"],
+                    data: appointmentYear,
                     scaleType: "band",
                   },
                 ]}
                 series={[
                   {
-                    data: [150, 200, 500, 300],
+                    data: appointmentCount,
                     color: "#fdb462",
                   },
                 ]}
@@ -121,13 +209,13 @@ function DashboardContent() {
                 xAxis={[
                   {
                     id: "barCategories",
-                    data: ["2020", "2021", "2022", "2023"],
+                    data: prescriptionYear,
                     scaleType: "band",
                   },
                 ]}
                 series={[
                   {
-                    data: [150, 200, 500, 300],
+                    data: prescriptionCount,
                   },
                 ]}
                 width={500}
