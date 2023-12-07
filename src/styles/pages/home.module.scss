@@ -1,0 +1,74 @@
+.home_page {
+  :global {
+    .btn-primary {
+      border: none;
+    }
+  }
+}
+.singleSlide {
+  img {
+    height: calc(100vh - (70px + 60px));
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+.book_appointment {
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search_doctor {
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .search_wrapper {
+    width: 90%;
+    max-width: 500px;
+  }
+  input {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+.modal_header {
+  // border: none;
+}
+.modal_body {
+  font-size: 14px;
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  label {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 500;
+  }
+  input,
+  textarea {
+    font-size: inherit;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  textarea {
+    min-height: 100px;
+    max-height: 200px;
+  }
+}
+.modal_footer {
+  padding-top: 0;
+  border: none;
+}
