@@ -8,7 +8,10 @@ import {
 } from "react-bootstrap-icons";
 import { BarChart } from '@mui/x-charts/BarChart';
 
+
 function DashboardContent() {
+  
+  const [username, setUsername] = useState("administrator");
   const[onlineDoctorTotal,setOnlineDoctorTotal] = useState(0)
   const [appointmentTotal, setAppointmentTotal] = useState(0);
   const [patientTotal, setPatientTotal] = useState(0);
@@ -48,6 +51,7 @@ function DashboardContent() {
     backgroundColor: "white", // Background color
     padding: "10px",          // Padding for better contrast
   };
+
   async function getTotalData() {
     const responseDoctor = await fetch("http://localhost:8080/doctors/findPage?pageSize=1");
     const responseDoctorData = await responseDoctor.json();
@@ -105,8 +109,26 @@ function DashboardContent() {
 
    }
 
+   
+  async function getInfo() {
+    const info = await fetch("http://localhost:8080/getInfo", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        loginToken: localStorage.getItem("loginToken"),
+      },
+    });
+    const infoData = await info.json();
+    setUsername(infoData.data);
+  }
+
 
   useEffect(()=>{
+    const token = localStorage.getItem("loginToken");
+    if (!token) {
+      window.location.href = "/login"; 
+    }
+    getInfo();
     getTotalData();
     getGroupData();
 
@@ -119,7 +141,7 @@ function DashboardContent() {
         <Col>
           <Card style={doctorNameStyle}>
             <Card.Body>
-              <Card.Title>Hello, administrator</Card.Title>
+              <Card.Title>Hello, {username}</Card.Title>
             </Card.Body>
           </Card>
         </Col>

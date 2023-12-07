@@ -7,11 +7,9 @@ import {
   Calendar,
   Person,
   ChatSquareDots,
-  Capsule,
-  FileEarmarkText,
-  Gear,
   BoxArrowRight,
 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 
 // Import individual content components
@@ -19,27 +17,25 @@ import DashboardContent from "./AdminDashboard";
 import Appointment from "./AdminAppointment";
 import Patients from "./AdminPatients";
 import Doctors from "./AdminDoctors";
-// import Medication from "./Medication";
-// import DoctorDocuments from "./Documents";
-// import Settings from "./settings";
-
 
 function Sidebar() {
+   const nav = useNavigate();
   const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
 
   const handleMenuItemClick = (menuItem) => {
     setActiveMenuItem(menuItem);
   };
 
+   const loginOut = () => {
+     localStorage.removeItem("loginToken")
+     nav("/login")
+   };
   // Define content for each menu item
   const menuContent = {
     dashboard: <DashboardContent />,
     appointments: <Appointment />,
     patients: <Patients />,
     doctors: <Doctors />,
-    // medications: <Medication />,
-    // documents: <DoctorDocuments />,
-    // settings: <Settings />
   };
 
   return (
@@ -91,6 +87,13 @@ function Sidebar() {
                   </Nav.Link>
                   <Nav.Link
                     href="#"
+                    onClick={() => loginOut()}
+                    className={activeMenuItem === "logout" ? "active-link" : ""}
+                  >
+                    <BoxArrowRight /> Logout
+                  </Nav.Link>
+                  {/* <Nav.Link
+                    href="#"
                     onClick={() => handleMenuItemClick("medications")}
                     className={
                       activeMenuItem === "medications" ? "active-link" : ""
@@ -122,7 +125,7 @@ function Sidebar() {
                     className={activeMenuItem === "logout" ? "active-link" : ""}
                   >
                     <BoxArrowRight /> Logout
-                  </Nav.Link>
+                  </Nav.Link> */}
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

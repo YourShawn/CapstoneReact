@@ -2,15 +2,62 @@ import React, { useState } from "react";
 import Header from "../component/header";
 import Footer from "../component/footer";
 import { Form, Button, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/auth.css";
+import { Modal } from "antd"
 
 const Login = () => {
+  const nav = useNavigate();
+
   const [userID, setuserID] = useState("");
   const [password, setPassword] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
-
-  const handleLogin = () => {};
+  
+   async function handleLogin() {
+     const url = "http://localhost:8080/login";
+     const data = {
+       username: userID,
+       password: password,
+       role: selectedRole,
+     };
+     fetch(url, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(data), // Convert the data to JSON format
+     })
+       .then((response) => response.json()) // Assuming the server returns JSON
+       .then((data) => {
+         console.log("Success:", data);
+         if(data.code !== 200){
+             Modal.info({
+               title: "Login Failed",
+               content: (
+                 <div>
+                   <p>{data.message}</p>
+                 </div>
+               ),
+               onOk() {},
+             });
+            return;
+         }
+         localStorage.setItem("loginToken",data.data);
+        if (selectedRole === "Doctor") {
+          nav("/doctor-dashboard");
+        }
+        if (selectedRole === "Patient") {
+          nav("/patient-dashboard");
+        }
+        if (selectedRole === "Admin") {
+          nav("/admin");
+        }
+        
+       })
+       .catch((error) => {
+         console.error("Error:", error);
+       });
+   }
 
   return (
     <div>
