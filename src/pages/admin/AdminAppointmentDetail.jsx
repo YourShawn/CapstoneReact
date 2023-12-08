@@ -15,7 +15,7 @@ function AppointmentsDetail({appointmentId}) {
 
   async function findAppointmentInfo(appointmentId) {
     const responseDoctor = await fetch(
-      `http://localhost:8080/appointments/getInfo?appointmentId=${appointmentId}`
+      `/api/appointments/getInfo?appointmentId=${appointmentId}`
     );
     const responseDoctorData = await responseDoctor.json();
     setAppointmentData(responseDoctorData.data);
