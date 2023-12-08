@@ -12,6 +12,7 @@ import Service from "./pages/service";
 import Signup from "./pages/signup";
 import Profile from "./pages/profile";
 import "./styles/App.css";
+import PatientDetails from "./pages/doctor/PatientDetails";
 
 function App() {
   return (
@@ -26,8 +27,9 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/doctor-dashboard" element={<DoctorPanel />}></Route>
+          <Route path="/doctor-dashboard/*" element={<DoctorPanel />} />
           <Route path="/patient-dashboard" element={<PatientPanel />}></Route>
+          <Route path="/patient/:patientId" element={<PatientDetails />} />
           <Route path="/admin" element={<AdminSideBar />}></Route>
         </Routes>
       </BrowserRouter>

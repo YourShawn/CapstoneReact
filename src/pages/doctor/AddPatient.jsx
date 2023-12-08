@@ -56,7 +56,9 @@ const AddPatient = ({ show, handleClose }) => {
     const resetForm = () => {
         setFormData({ ...initialFormData });
         setValidation({ ...initialValidation });
+        setSubmitAttempted(false); // Reset submitAttempted state
     };
+    
 
     useEffect(() => {
         // Reset the form when the modal is opened
@@ -67,21 +69,17 @@ const AddPatient = ({ show, handleClose }) => {
 
     const validateField = (fieldName) => {
         const value = formData[fieldName].trim();
-        let message = "";
-
+    
         switch (fieldName) {
             case "firstName":
             case "lastName":
-                message = value ? "" : `${labelNames[fieldName]} is required.`;
-                break;
+                return value ? "" : `${labelNames[fieldName]} is required.`;
             case "phoneNumber":
                 const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-                message = phoneRegex.test(value) ? "" : "Invalid Phone Number. Must be 10 digits.";
-                break;
+                return phoneRegex.test(value) ? "" : "Invalid Phone Number. Must be 10 digits.";
             case "email":
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                message = emailRegex.test(value) ? "" : "Invalid Email Address.";
-                break;
+                return emailRegex.test(value) ? "" : "Invalid Email Address.";
             case "healthCardId":
             case "address":
             case "dateOfBirth":
@@ -90,22 +88,24 @@ const AddPatient = ({ show, handleClose }) => {
             case "gender":
             case "allergies":
             case "patientHistory":
-                message = value ? "" : `${labelNames[fieldName]} is required.`;
-                break;
+                return value ? "" : `${labelNames[fieldName]} is required.`;
             default:
-                break;
+                return "";
         }
-
-        return message;
     };
+    
 
     const handleValidation = () => {
         const newValidation = {};
 
         Object.keys(formData).forEach((fieldName) => {
-            newValidation[fieldName] = validateField(fieldName);
+            const validationMessage = validateField(fieldName);
+            if (validationMessage !== "") {
+                newValidation[fieldName] = validationMessage;
+            } else {
+                newValidation[fieldName] = "";
+            }
         });
-
         setValidation(newValidation);
 
         // Check if all fields are valid
@@ -174,8 +174,7 @@ const AddPatient = ({ show, handleClose }) => {
 
 
     const handleChange = (e) => {
-        const { id, value } = e.target;
-    
+        const { id, value } = e.target;    
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
