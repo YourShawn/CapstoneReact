@@ -14,7 +14,7 @@ const Login = () => {
   const [selectedRole, setSelectedRole] = useState("");
   
    async function handleLogin() {
-     const url = "http://localhost:8080/login";
+     const url = "/api/login";
      const data = {
        username: userID,
        password: password,
