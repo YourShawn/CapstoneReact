@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom fo
 import { Pagination } from "antd";
 
 
-function Doctors() {
+function AdminDoctors() {
   // Sample patient data (replace with actual data)
   // const doctorsData = [
   //   { id: 1, DoctorsName: "Doctor A", gender: "Male" },
@@ -59,8 +59,8 @@ function Doctors() {
                 <td>{doctor.doctorName}</td>
                 <td>{doctor.specialization}</td>
                 <td>
-                  <Link to={`admin/doctor/${doctor.doctorId}`}>
-                    View Details
+                  <Link to={`/admin/doctor/info?doctorId=${doctor.doctorId}`}>
+                    Details
                   </Link>
                 </td>
               </tr>
@@ -72,4 +72,4 @@ function Doctors() {
   );
 }
 
-export default Doctors;
+export default AdminDoctors;

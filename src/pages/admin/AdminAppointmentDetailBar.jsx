@@ -9,14 +9,21 @@ import {
   ChatSquareDots,
   BoxArrowRight,
 } from "react-bootstrap-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
-// Import individual content components
-import DashboardContent from "./AdminDashboard";
+import AppointmentsDetail from './AdminAppointmentDetail'
 
-function Sidebar() {
+function AppointmentsDetailBar() {
    const nav = useNavigate();
+  const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
+   const location = useLocation();
+   const searchParams = new URLSearchParams(location.search);
+   const id = searchParams.get("appointmentId");
+
+  const handleMenuItemClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+  };
 
    const loginOut = () => {
      localStorage.removeItem("loginToken")
@@ -34,10 +41,13 @@ function Sidebar() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="flex-column custom-nav">
-                  <Nav.Link href="/admin" className="active-link">
+                  <Nav.Link href="/admin">
                     <HouseDoorFill /> Dashboard
                   </Nav.Link>
-                  <Nav.Link href="/appointments">
+                  <Nav.Link
+                    href="/appointments"
+                    className={activeMenuItem === "active-link"}
+                  >
                     <Calendar /> Appointments
                   </Nav.Link>
                   <Nav.Link href="/patients">
@@ -60,7 +70,7 @@ function Sidebar() {
           {/* Main Content */}
           <Col md={10} className="p-4">
             {/* Render content based on the activeMenuItem */}
-            <DashboardContent />,
+            <AppointmentsDetail appointmentId={id} />
           </Col>
         </Row>
       </Container>
@@ -69,4 +79,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default AppointmentsDetailBar;

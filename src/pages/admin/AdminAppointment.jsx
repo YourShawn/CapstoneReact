@@ -7,11 +7,7 @@ import dayjs from "dayjs";
 function Appointments() {
   const [current, setCurrent] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const [appointmentData,setAppointmentData] = useState([
-    { id: 1, patientName: "John Doe", date: "2023-10-15", time: "10:00 AM" },
-    { id: 2, patientName: "Jane Smith", date: "2023-10-16", time: "2:30 PM" },
-    // Add more appointment entries here
-  ]);
+  const [appointmentData,setAppointmentData] = useState([]);
 
   async function findAppointmentPage(pageNum) {
     const responseDoctor = await fetch(
@@ -62,8 +58,10 @@ function Appointments() {
                 </td>
                 <td>{appointment.reasonForAppointment}</td>
                 <td>
-                  <Link to={`appointments/${appointment.appointmentId}`}>
-                    View
+                  <Link
+                    to={`/admin/appointment/info?appointmentId=${appointment.appointmentId}`}
+                  >
+                    Detail
                   </Link>
                 </td>
               </tr>

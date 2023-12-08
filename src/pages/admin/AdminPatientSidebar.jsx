@@ -13,16 +13,18 @@ import { useNavigate } from "react-router-dom";
 
 
 // Import individual content components
-import DashboardContent from "./AdminDashboard";
+import Patients from "./AdminPatients";
 
-function Sidebar() {
+function AdminPatientSidebar() {
    const nav = useNavigate();
+  const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
 
    const loginOut = () => {
      localStorage.removeItem("loginToken")
      nav("/login")
    };
-
+ 
+  
   return (
     <div className="sidebar-container">
       {/* <Header /> */}
@@ -34,13 +36,13 @@ function Sidebar() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="flex-column custom-nav">
-                  <Nav.Link href="/admin" className="active-link">
+                  <Nav.Link href="/admin">
                     <HouseDoorFill /> Dashboard
                   </Nav.Link>
                   <Nav.Link href="/appointments">
                     <Calendar /> Appointments
                   </Nav.Link>
-                  <Nav.Link href="/patients">
+                  <Nav.Link href="/patients" className="active-link">
                     <Person /> Patients
                   </Nav.Link>
                   <Nav.Link href="/doctors">
@@ -60,7 +62,7 @@ function Sidebar() {
           {/* Main Content */}
           <Col md={10} className="p-4">
             {/* Render content based on the activeMenuItem */}
-            <DashboardContent />,
+            <Patients />,
           </Col>
         </Row>
       </Container>
@@ -69,4 +71,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default AdminPatientSidebar;

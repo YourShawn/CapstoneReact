@@ -5,14 +5,23 @@ import Contact from "./pages/contact";
 import DoctorPanel from "./pages/doctor";
 import ForgotPassword from "./pages/forgotPass";
 import AdminSideBar from "./pages/admin/AdminSidebar";
+import AppointmentsDetailBar from "./pages/admin/AdminAppointmentDetailBar";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import PatientPanel from "./pages/patient";
 import Service from "./pages/service";
 import Signup from "./pages/signup";
 import Profile from "./pages/profile";
+import AdminAppointmentsSidebar from "./pages/admin/AdminAppointmentsSidebar";
+import AdminDoctorSidebar from "./pages/admin/AdminDoctorSidebar";
+import AdminPatientSidebar from "./pages/admin/AdminPatientSidebar";
 import "./styles/App.css";
 import PatientDetails from "./pages/doctor/PatientDetails";
+import AdminUserSidebar from "./pages/admin/AdminUserSidebar";
+import AdminDoctorsDetailBar from "./pages/admin/AdminDoctorsDetailBar";
+import AdminPatientDetailBar from "./pages/admin/AdminPatientDetailBar";
+import AdminAppointmentDetailBar from "./pages/admin/AdminAppointmentDetailBar";
+import AdminUserDetailBar from "./pages/admin/AdminUserDetailBar";
 
 function App() {
   return (
@@ -31,6 +40,31 @@ function App() {
           <Route path="/patient-dashboard" element={<PatientPanel />}></Route>
           <Route path="/patient/:patientId" element={<PatientDetails />} />
           <Route path="/admin" element={<AdminSideBar />}></Route>
+          <Route
+            path="/appointments"
+            element={<AdminAppointmentsSidebar />}
+          ></Route>
+          <Route path="/doctors" element={<AdminDoctorSidebar />}></Route>
+
+          <Route path="/patients" element={<AdminPatientSidebar />}></Route>
+          <Route path="/users" element={<AdminUserSidebar />}></Route>
+
+          <Route
+            path="/admin/appointment/info"
+            element={<AdminAppointmentDetailBar />}
+          ></Route>
+          <Route
+            path="/admin/doctor/info"
+            element={<AdminDoctorsDetailBar />}
+          ></Route>
+          <Route
+            path="/admin/patient/info"
+            element={<AdminPatientDetailBar />}
+          ></Route>
+          <Route
+            path="/admin/user/info"
+            element={<AdminUserDetailBar />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

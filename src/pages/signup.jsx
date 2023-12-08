@@ -226,9 +226,9 @@ function Signup() {
                 <Dropdown.Item onClick={() => setRole("Doctor")}>
                   Doctor
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => setRole("Admin")}>
+                {/* <Dropdown.Item onClick={() => setRole("Admin")}>
                   Admin
-                </Dropdown.Item>
+                </Dropdown.Item> */}
               </Dropdown.Menu>
             </Dropdown>
 

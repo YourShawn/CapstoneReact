@@ -14,15 +14,33 @@ import { useNavigate } from "react-router-dom";
 
 // Import individual content components
 import DashboardContent from "./AdminDashboard";
+import Appointment from "./AdminAppointment";
+import Patients from "./AdminPatients";
+import Doctors from "./AdminDoctors";
+import Users from "./AdminUser";
 
-function Sidebar() {
+function AdminDoctorSidebar() {
    const nav = useNavigate();
+  const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
+
+  const handleMenuItemClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+  };
 
    const loginOut = () => {
      localStorage.removeItem("loginToken")
      nav("/login")
    };
+  // Define content for each menu item
+  const menuContent = {
+    dashboard: <DashboardContent />,
+    appointments: <Appointment />,
+    patients: <Patients />,
+    doctors: <Doctors />,
+    users: <Users />,
+  };
 
+  
   return (
     <div className="sidebar-container">
       {/* <Header /> */}
@@ -34,10 +52,13 @@ function Sidebar() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="flex-column custom-nav">
-                  <Nav.Link href="/admin" className="active-link">
+                  <Nav.Link href="/admin">
                     <HouseDoorFill /> Dashboard
                   </Nav.Link>
-                  <Nav.Link href="/appointments">
+                  <Nav.Link
+                    href="/appointments"
+                    className={activeMenuItem === "active-link"}
+                  >
                     <Calendar /> Appointments
                   </Nav.Link>
                   <Nav.Link href="/patients">
@@ -60,7 +81,7 @@ function Sidebar() {
           {/* Main Content */}
           <Col md={10} className="p-4">
             {/* Render content based on the activeMenuItem */}
-            <DashboardContent />,
+            <Doctors />,
           </Col>
         </Row>
       </Container>
@@ -69,4 +90,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default AdminDoctorSidebar;
