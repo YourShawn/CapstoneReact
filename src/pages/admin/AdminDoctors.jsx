@@ -22,7 +22,7 @@ function AdminDoctors() {
 
     async function findDoctorsPage(pageNum) {
       const responseDoctor = await fetch(
-        "http://localhost:8080/doctors/findPage?pageSize=10&pageNum=" + pageNum
+        "/api/doctors/findPage?pageSize=10&pageNum=" + pageNum
       );
       const responseDoctorData = await responseDoctor.json();
       setDoctorsData(responseDoctorData.data.list);

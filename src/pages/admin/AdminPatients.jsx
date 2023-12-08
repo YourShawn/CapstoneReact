@@ -13,7 +13,7 @@ function Patients() {
 
     async function findPatientPage(pageNum) {
       const responseDoctor = await fetch(
-        "http://localhost:8080/patients/findPage?pageSize=10&pageNum=" +
+        "/api/patients/findPage?pageSize=10&pageNum=" +
           pageNum
       );
       const responseDoctorData = await responseDoctor.json();

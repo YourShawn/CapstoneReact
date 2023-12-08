@@ -15,7 +15,7 @@ function AdminUserDetail({userId}) {
 
   async function findUserInfo(userId) {
     const responseUser = await fetch(
-      `http://localhost:8080/user/getInfo?userId=${userId}`
+      `/api/user/getInfo?userId=${userId}`
     );
     const responseUserData = await responseUser.json();
     setUserData(responseUserData.data);

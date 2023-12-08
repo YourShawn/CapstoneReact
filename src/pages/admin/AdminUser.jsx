@@ -13,7 +13,7 @@ function Users() {
 
     async function findUserPage(pageNum) {
       const responseDoctor = await fetch(
-        "http://localhost:8080/user/findPage?pageSize=10&pageNum=" + pageNum
+        "/api/user/findPage?pageSize=10&pageNum=" + pageNum
       );
       const responseDoctorData = await responseDoctor.json();
       setUsersData(responseDoctorData.data.list);

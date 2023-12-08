@@ -53,18 +53,18 @@ function DashboardContent() {
   };
 
   async function getTotalData() {
-    const responseDoctor = await fetch("http://localhost:8080/doctors/findPage?pageSize=1");
+    const responseDoctor = await fetch("/api/doctors/findPage?pageSize=1");
     const responseDoctorData = await responseDoctor.json();
     setOnlineDoctorTotal(responseDoctorData.data.total);
 
     const responseAppointment = await fetch(
-      "http://localhost:8080/appointments/findPage?pageSize=1"
+      "/api/appointments/findPage?pageSize=1"
     );
     const responseAppointmentData = await responseAppointment.json();
     setAppointmentTotal(responseAppointmentData.data.total);
     
     const responsePatients = await fetch(
-      "http://localhost:8080/patients/findPage?pageSize=1"
+      "/api/patients/findPage?pageSize=1"
     );
     const responsePatientsData = await responsePatients.json();
     setPatientTotal(responsePatientsData.data.total);
@@ -74,7 +74,7 @@ function DashboardContent() {
    async function getGroupData() {
 
     const findGroupDays = await fetch(
-      "http://localhost:8080/appointments/findGroupDays"
+      "/api/appointments/findGroupDays"
     );
     const findGroupDaysData = await findGroupDays.json();
     if (findGroupDaysData.data) {
@@ -90,7 +90,7 @@ function DashboardContent() {
 
 
     const findGroupAppointmentYear = await fetch(
-      "http://localhost:8080/prescriptions/findGroupYear"
+      "/api/prescriptions/findGroupYear"
     );
     const findGroupAppointmentYearData = await findGroupAppointmentYear.json();
     if (findGroupAppointmentYearData.data) {
@@ -111,7 +111,7 @@ function DashboardContent() {
 
    
   async function getInfo() {
-    const info = await fetch("http://localhost:8080/getInfo", {
+    const info = await fetch("/api/getInfo", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

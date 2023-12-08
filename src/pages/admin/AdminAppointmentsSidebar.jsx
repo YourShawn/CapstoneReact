@@ -13,33 +13,17 @@ import { useNavigate } from "react-router-dom";
 
 
 // Import individual content components
-import DashboardContent from "./AdminDashboard";
 import Appointment from "./AdminAppointment";
-import Patients from "./AdminPatients";
-import Doctors from "./AdminDoctors";
-import Users from "./AdminUser";
 
 function AdminAppointmentsSidebar() {
    const nav = useNavigate();
   const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
 
-  const handleMenuItemClick = (menuItem) => {
-    setActiveMenuItem(menuItem);
-  };
-
    const loginOut = () => {
      localStorage.removeItem("loginToken")
      nav("/login")
    };
-  // Define content for each menu item
-  const menuContent = {
-    dashboard: <DashboardContent />,
-    appointments: <Appointment />,
-    patients: <Patients />,
-    doctors: <Doctors />,
-    users: <Users />,
-  };
-
+ 
   
   return (
     <div className="sidebar-container">
