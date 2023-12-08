@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, FormControl, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes, useParams } from "react-router-dom";
 import DoctorService from "../../services/doctorservices";
 import ReactPaginate from "react-paginate";
 import AddPatient from "./AddPatient";
-
+import PatientDetails from "./PatientDetails";
 
 function calculateAge(dateOfBirth) {
   const birthDate = new Date(dateOfBirth);
   const currentDate = new Date();
-
   const yearsDiff = currentDate.getFullYear() - birthDate.getFullYear();
 
   if (
@@ -43,9 +42,6 @@ function Patients() {
       });
   }, []);
 
-
-  
-
   // Filter the data based on the search term
   const filteredData = patientsData.filter((patient) => {
     const fullName = `${patient.firstName} ${patient.lastName}`;
@@ -53,7 +49,8 @@ function Patients() {
   });
 
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
+    // Add 1 to selected because currentPage is one-based
+    setCurrentPage(selected + 1);
   };
 
   const handleAddPatientClick = () => {
@@ -61,19 +58,12 @@ function Patients() {
   };
 
   const handleAddPatientSubmit = (formData) => {
-    // Add logic to submit patient data to the server
-    // and update the state accordingly
-    // For example, DoctorService.addPatient(formData)
-    //   .then((response) => {
-    //     // Update state or fetch updated patient list
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error adding patient:", error);
-    //   });
-
-    // For now, just close the modal
     handleCloseAddPatientModal();
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <Container>
@@ -81,7 +71,6 @@ function Patients() {
 
       <Row className="mb-4">
         <Col md={12} className="d-flex justify-content-end">
-          {/* Add Patient Button */}
           <Button variant="success" onClick={handleAddPatientClick}>
             Add Patient
           </Button>
@@ -102,7 +91,6 @@ function Patients() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Col>
-
       </Row>
 
       <Table striped bordered hover className="my-4">
@@ -116,7 +104,7 @@ function Patients() {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((patient) => (
+          {currentItems.map((patient) => (
             <tr key={patient.patientId}>
               <td>{patient.patientId}</td>
               <td>{`${patient.firstName} ${patient.lastName}`}</td>
@@ -130,32 +118,49 @@ function Patients() {
         </tbody>
       </Table>
 
-      {/* Pagination with react-paginate */}
       <Row className="mb-4">
         <Col md={6}>
-          {/* Showing X to Y of Z entries */}
           <p>
-
-            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage,
-              filteredData.length)} of {filteredData.length} entries
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
           </p>
         </Col>
         <Col md={6} className="d-flex justify-content-end">
           <ReactPaginate
-            previousLabel={"<"}
-            nextLabel={">"}
+            previousLabel={<span className="pagination-symbol">{"<"}</span>}
+            nextLabel={<span className="pagination-symbol">{">"}</span>}
             breakLabel={"..."}
             pageCount={Math.ceil(filteredData.length / itemsPerPage)}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={handlePageChange}
-            containerClassName={"pagination"}
+            containerClassName={"pagination justify-content-end"} 
             subContainerClassName={"pages pagination"}
+            pageClassName={"page-item"}
             activeClassName={"active"}
+            activeLinkClassName={"active-link"}
+            pageLinkClassName={"page-link"} 
+            breakClassName={"page-item"} 
+            previousClassName={"page-item"} 
+            previousLinkClassName={"page-link"} 
+            nextClassName={"page-item"} 
+            nextLinkClassName={"page-link"}
           />
         </Col>
       </Row>
+
+      <Routes>
+        <Route path="/patient/:patientId" element={<PatientDetails />} />
+        <Route index element={<DefaultComponent />} />
+      </Routes>
     </Container>
+  );
+}
+
+function DefaultComponent() {
+  return (
+    <div>
+      {/* Add code for the default component */}
+    </div>
   );
 }
 

@@ -9,20 +9,18 @@ import {
   HouseDoorFill,
   Person,
 } from "react-bootstrap-icons";
-import { useParams, Routes, Route } from "react-router-dom";
+import { useParams, Routes, Route, Outlet } from "react-router-dom";
 import Footer from "../../component/footer";
 import Header from "../../component/header";
 import styles from "../../styles/pages/dashboard.module.scss";
-// Import individual content components
+
 import Sidebar from "../../component/sidebar";
 import Appointment from "./Appointment";
-import DoctorDocuments from "./Documents";
-import Medication from "./Medication";
-import Messeges from "./Messeges";
 import Patients from "./Patients";
 import DashboardContent from "./doctorDashboard";
 import Settings from "./settings";
 import AddPatient from "./AddPatient";
+import PatientDetails from "./PatientDetails";
 
 function DoctorPanel() {
   const { page = "dashboard" } = useParams(); // Set default value for page
@@ -49,21 +47,6 @@ function DoctorPanel() {
       ],
     },
     {
-      id: "messages",
-      navIcon: <ChatSquareDots />,
-      navText: "messages",
-    },
-    {
-      id: "medications",
-      navIcon: <Capsule />,
-      navText: "medications",
-    },
-    {
-      id: "documents",
-      navIcon: <FileEarmarkText />,
-      navText: "documents",
-    },
-    {
       id: "settings",
       navIcon: <Gear />,
       navText: "settings",
@@ -81,11 +64,12 @@ function DoctorPanel() {
       <Routes>
         <Route path="/" element={<Patients />} />
         <Route path="add-patient" element={<AddPatient />} />
+        <Route path="patient/:patientId" element={<Outlet />}>
+        <Route index element={<PatientDetails />} />
+      </Route> 
       </Routes>
     ),
-    messages: <Messeges />,
-    medications: <Medication />,
-    documents: <DoctorDocuments />,
+    
     settings: <Settings />,
     "add-patient": <AddPatient />,
   };

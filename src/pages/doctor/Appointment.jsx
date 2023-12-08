@@ -136,7 +136,7 @@ function Appointments() {
             return (
               <tr key={appointment.appointmentId}>
                 <td>{appointment.appointmentId}</td>
-                <td>{appointment.patientId}</td>
+                <td>{appointment.patientName}</td>
                 <td>{date}</td>
                 <td>{time}</td>
                 <td>{appointment.status}</td>

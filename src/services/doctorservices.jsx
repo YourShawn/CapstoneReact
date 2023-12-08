@@ -1,37 +1,75 @@
 import axios from "axios";
 
-const get_patient_List_url = "http://localhost:8080/patients/getAllocatedPatientsList";
-const getAppointmentListUrl = "http://localhost:8080/appointments/getAppointmentsList";
-const deleteAppointmentUrl = "http://localhost:8080/appointments/update"
-const addPatientUrl = "http://localhost:8080/patients/add"
 
+const baseURL = "http://localhost:8080";
+
+const endpoints = {
+  getPatientList: "/patients/getAllocatedPatientsList",
+  getAppointmentList: "/appointments/getAppointmentsList",
+  deleteAppointment: "/appointments/update",
+  addPatient: "/patients/add",
+  getPatientDetail: "/patients/getPatientDetail",
+  getPatientsPastMedicalRecords: "/MedicalRecords/getPatientsMedicalRecords",
+  getPrescriptionDetail:"/prescriptions/getPrescriptionDetail",
+  savePrescription:"/prescriptions/add",
+  saveMedicalRecords:"/MedicalRecords/add",
+  saveMedications:"/medications/addMedications"
+};
+const config = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
 class DoctorService {
+  getPatientList = () => {
+    return axios.post(`${baseURL}${endpoints.getPatientList}`, { assignedDoctor: 1 });
+  };
 
-    getPatientList() {
-        return axios.post(get_patient_List_url, { assignedDoctor: 1 });
-    }
+  getAppointmentList = () => {
+    return axios.post(`${baseURL}${endpoints.getAppointmentList}`, { doctorId: 1 });
+  };
 
-    getAppointmentList() {
-        return axios.post(getAppointmentListUrl, { doctorId: 1 });
-    }
+  deleteAppointment = (appointmentId, deleteReason) => {
+    return axios.post(`${baseURL}${endpoints.deleteAppointment}`, {
+      appointmentId: appointmentId,
+      isActive: 0,
+      reasonForAppointment: deleteReason,
+    });
+  };
 
-    deleteAppointment(appointmentId, deleteReason) {
-        return axios.post(deleteAppointmentUrl, { appointmentId: appointmentId, isActive: 0, 
-            reasonForAppointment: deleteReason })
-    }
+  updateAppointment = (appointmentId, status) => {
+    return axios.post(`${baseURL}${endpoints.deleteAppointment}`, { appointmentId, status });
+  };
 
-    updateAppointment(appointmentId,status) {
-        return axios.post(deleteAppointmentUrl,{appointmentId,status});
-    }
+  addPatient = (formData) => {
+    return axios.post(`${baseURL}${endpoints.addPatient}`, formData, config);
+  };
 
-    addPatient(formData) {
-        console.log("Form Data Again:", formData);
-        return axios.post(addPatientUrl,{formData});
-    }
+  getPatientDetail = (patientId) => {
+    return axios.post(`${baseURL}${endpoints.getPatientDetail}`, { assignedDoctor: 1, patientId });
+  };
+
+  getPatientsPastMedicalRecords = (patientId) => {
+    return axios.post(`${baseURL}${endpoints.getPatientsPastMedicalRecords}`, { patientId:patientId });
+  };
+
+  getPrescriptionDetail = (prescriptionId) => {
+    return axios.post(`${baseURL}${endpoints.getPrescriptionDetail}`, { prescriptionId:prescriptionId });
+  };
+
+  savePrescription = (prescriptionData) => { 
+    return axios.post(`${baseURL}${endpoints.savePrescription}`,prescriptionData,config);
+  };
+
+  saveMedicalRecords = (medicalRecordsData) => {
+    return axios.post(`${baseURL}${endpoints.saveMedicalRecords}`,medicalRecordsData,config);
+  };
+
+  saveMedications = (medicationRecords) => {
+    return axios.post(`${baseURL}${endpoints.saveMedications}`, medicationRecords, config);
+  };
 }
 
-const doctorService = new DoctorService(); // Give a name to the instance
+const doctorService = new DoctorService();
 
-
-
-export default doctorService; // Export the named instance
+export default doctorService;
