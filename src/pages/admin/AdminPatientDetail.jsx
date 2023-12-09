@@ -58,22 +58,22 @@ function AdminPatientDetail({patientId}) {
             dayjs(patientData.dateOfBirth).format("YYYY-MM-DD")}
         </Form.Item>
 
-        <Form.Item label="gender">{patientData?.gender}</Form.Item>
+        <Form.Item label="Gender">{patientData?.gender}</Form.Item>
 
-        <Form.Item label="healthCardId">{patientData?.healthCardId}</Form.Item>
+        <Form.Item label="Health Card ID">{patientData?.healthCardId}</Form.Item>
 
-        <Form.Item label="haveAllergies">
+        <Form.Item label="Have Allergies">
           {patientData?.haveAllergies}
         </Form.Item>
 
-        <Form.Item label="assignedDoctor">
+        <Form.Item label="AssignedDoctor">
           {patientData?.assignedDoctor}
         </Form.Item>
-        <Form.Item label="bloodGroup">{patientData?.bloodGroup}</Form.Item>
-        <Form.Item label="patientHistory">
+        <Form.Item label="Blood Group">{patientData?.bloodGroup}</Form.Item>
+        <Form.Item label="Patient History">
           {patientData?.patientHistory}
         </Form.Item>
-        <Form.Item label="maritalStatus">
+        <Form.Item label="Marital Status">
           {patientData?.maritalStatus}
         </Form.Item>
 

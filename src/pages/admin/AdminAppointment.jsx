@@ -41,22 +41,24 @@ function Appointments() {
             <th>Patient Name</th>
             <th>Time</th>
             <th>Reason</th>
+            <th>Status</th>
             <th>View</th> {/* New column for View link */}
           </tr>
         </thead>
         <tbody>
           {appointmentData &&
             appointmentData.map((appointment) => (
-              <tr key={appointment.appointmentId}>
-                <td>{appointment.appointmentId}</td>
-                <td>{appointment.patientName}</td>
+              <tr key={appointment?.appointmentId}>
+                <td>{appointment?.appointmentId}</td>
+                <td>{appointment?.patientName}</td>
                 <td>
-                  {appointment.appointmentDateTime &&
-                    dayjs(appointment.appointmentDateTime).format(
+                  {appointment?.appointmentDateTime &&
+                    dayjs(appointment?.appointmentDateTime).format(
                       "YYYY-MM-DD HH:mm:ss"
                     )}
                 </td>
-                <td>{appointment.reasonForAppointment}</td>
+                <td>{appointment?.reasonForAppointment}</td>
+                <td>{appointment?.status}</td>
                 <td>
                   <Link
                     to={`/admin/appointment/info?appointmentId=${appointment.appointmentId}`}
