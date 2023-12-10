@@ -1,10 +1,20 @@
 import axios from "axios";
-const registerUserUrl = "http://localhost:8080/register/add";
+const baseURL = "/api";
+
+
+const endpoints = {
+  registerUser: "/register/add",
+  getUserData:"/register/getUserData"
+};
 
 class RegistrationService {
-  registerUser(userData) {
-    return axios.post(registerUserUrl, userData);
-  }
+  registerUser = (userData) => {
+    return axios.post(`${baseURL}${endpoints.registerUser}`, userData);
+  };
+  getUserData = (userData) => {
+    console.log("userData in service:-->"+userData.emailAddress);
+    return axios.post(`${baseURL}${endpoints.getUserData}`, userData);
+  };
 }
 
 const registrationService = new RegistrationService(); // Create an instance

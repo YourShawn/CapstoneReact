@@ -40,8 +40,7 @@ function Appointments() {
         patientName: "",
         date: "",
         time: "",
-        membership: "Standard",
-        paymentMode: "Credit Card",
+        status: "Scheduled",
       });
       setIsDateAndTimeAvailable(true);
     } else {
@@ -66,9 +65,7 @@ function Appointments() {
             <th>Patient Name</th>
             <th>Date</th>
             <th>Time</th>
-            <th>Membership</th>
-            <th>Payment Mode</th>
-            <th>View</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -78,11 +75,8 @@ function Appointments() {
               <td>{appointment.patientName}</td>
               <td>{appointment.date}</td>
               <td>{appointment.time}</td>
-              <td>{appointment.membership}</td>
-              <td>{appointment.paymentMode}</td>
-              <td>
-                <Link to={`/appointments/${appointment.id}`}>View</Link>
-              </td>
+              <td>{appointment.status}</td>
+              
             </tr>
           ))}
         </tbody>

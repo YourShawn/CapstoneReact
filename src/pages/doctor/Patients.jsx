@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, FormControl, Row, Col, Button } from "react-bootstrap";
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import DoctorService from "../../services/doctorservices";
 import ReactPaginate from "react-paginate";
 import AddPatient from "./AddPatient";
@@ -33,14 +33,21 @@ function Patients() {
   const handleCloseAddPatientModal = () => setShowAddPatientModal(false);
 
   useEffect(() => {
-    DoctorService.getPatientList()
-      .then((response) => {
-        setPatientsData(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error from fetching data:", error);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await DoctorService.getPatientList();
+        if (response && response.data && response.data.data) {
+          setPatientsData(response.data.data);
+        } else {
+          console.error("Error: Response or data is undefined");
+        }
+      } catch (error) {
+        console.error("Error in fetching updated patient list:", error);
+      }
+    };
+  
+    fetchData();
+  }, [currentPage]);
 
   // Filter the data based on the search term
   const filteredData = patientsData.filter((patient) => {
@@ -57,13 +64,25 @@ function Patients() {
     handleShowAddPatientModal();
   };
 
-  const handleAddPatientSubmit = (formData) => {
-    handleCloseAddPatientModal();
+  const handleAddPatientSubmit = async () => {
+    try {
+      const response = await DoctorService.getPatientList();
+      if (response && response.data && response.data.data) {
+        setPatientsData(response.data.data);
+      } else {
+        console.error("Error: Response or data is undefined");
+      }
+    } catch (error) {
+      console.error("Error in fetching updated patient list:", error);
+    }
   };
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  
 
   return (
     <Container>
@@ -82,6 +101,7 @@ function Patients() {
         handleClose={handleCloseAddPatientModal}
         handleAddPatientSubmit={handleAddPatientSubmit}
       />
+
 
       <Row className="mb-4">
         <Col md={6} className="d-flex justify-content-end">
@@ -133,16 +153,16 @@ function Patients() {
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={handlePageChange}
-            containerClassName={"pagination justify-content-end"} 
+            containerClassName={"pagination justify-content-end"}
             subContainerClassName={"pages pagination"}
             pageClassName={"page-item"}
             activeClassName={"active"}
             activeLinkClassName={"active-link"}
-            pageLinkClassName={"page-link"} 
-            breakClassName={"page-item"} 
-            previousClassName={"page-item"} 
-            previousLinkClassName={"page-link"} 
-            nextClassName={"page-item"} 
+            pageLinkClassName={"page-link"}
+            breakClassName={"page-item"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
             nextLinkClassName={"page-link"}
           />
         </Col>

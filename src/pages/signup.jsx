@@ -5,6 +5,7 @@ import { Form, Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../styles/auth.css";
 import registrationService from "../services/registrationService";
+import doctorService from "../services/doctorservices";
 
 
 
@@ -15,6 +16,7 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [role, setRole] = useState("");
+  const [specialization, setSpecialization] = useState("");
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const [registrationCompleted, setRegistrationCompleted] = useState(false); // State to track if registration is completed
@@ -73,12 +75,19 @@ function Signup() {
           setErrors({ ...errors, role: "" });
         }
         break;
-      // Add validation cases for other fields
+      case "specialization":
+        // Validate specialization if it is visible (role is Doctor)
+        if (role === "Doctor" && !specialization) {
+          setErrors({ ...errors, specialization: "Specialization is required." });
+        } else {
+          setErrors({ ...errors, specialization: "" });
+        }
+        break;
       default:
         break;
     }
   };
-  
+
   const resetForm = () => {
     setFullName("");
     setEmailAddress("");
@@ -86,10 +95,11 @@ function Signup() {
     setConfirmPassword("");
     setPhoneNumber("");
     setRole("");
+    setSpecialization("");
     setErrors({});
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     // Validate all fields
     validateField("fullName");
     validateField("emailAddress");
@@ -97,6 +107,7 @@ function Signup() {
     validateField("confirmPassword");
     validateField("phoneNumber");
     validateField("role");
+    validateField("specialization");
     // Add validation for other fields
 
     // Check if there are any errors before proceeding
@@ -104,6 +115,8 @@ function Signup() {
     if (hasErrors) {
       return;
     }
+
+
 
     const userData = {
       fullName,
@@ -113,28 +126,51 @@ function Signup() {
       role
     };
 
-    
-    // If validations pass, you can make an API call to the backend to create the user.
+    try {
+      const isUserExistResponse = await registrationService.getUserData({
+        emailAddress: emailAddress,
+      });
 
-    registrationService.registerUser(userData)
-    .then((response) => {
-      // Handle the response from the backend if needed
-      console.log("User added successfully:", response.data);
-      // You can also redirect the user to a success page or perform other actions here
-      setSuccessMessage("Registration successful.");
+      if (isUserExistResponse && isUserExistResponse.data &&
+        isUserExistResponse.data.data && isUserExistResponse.data.data.length > 0) {
+        alert("User with this email already exists. Please use a different email.");
+        return;
+      }
 
-      // Reset the form
-      resetForm();
+      const registrationResponse = await registrationService.registerUser(userData);
 
-      // Mark registration as completed
-      setRegistrationCompleted(true);
-        
-    })
-    .catch((error) => {
-      // Handle any errors that occur during the API request
-      console.error("Error adding user:", error);
-      // You can display an error message to the user or handle the error in an appropriate way
-    });
+      if (registrationResponse && registrationResponse.data) {
+
+        const insertedUserData = await registrationService.getUserData({
+          emailAddress: emailAddress,
+        });
+        const userId = insertedUserData.data.data[0].userId;
+
+        if (role === "Doctor") {
+          const doctorData = {
+            doctorName: fullName,
+            specialization,
+            phoneNumber,
+            address: "Canada",
+            userId: userId,
+          };
+
+          const doctorResponse = await doctorService.addDoctor(doctorData);
+
+          console.log("Doctor added successfully:", doctorResponse.data);
+
+        }
+
+        setSuccessMessage("Registration successful.");
+        resetForm();
+        setRegistrationCompleted(true);
+      } else {
+        console.error("Unexpected registration response:", registrationResponse);
+      }
+    } catch (error) {
+
+      console.error("Error during signup:", error);
+    }
   };
 
   return (
@@ -227,10 +263,24 @@ function Signup() {
                   Doctor
                 </Dropdown.Item>
                 {/* <Dropdown.Item onClick={() => setRole("Admin")}>
-                  Admin
-                </Dropdown.Item> */}
+                    Admin
+                  </Dropdown.Item> */}
               </Dropdown.Menu>
             </Dropdown>
+            {/* Conditionally render specialization field based on role */}
+            {role === "Doctor" && (
+              <Form.Group className="formLabel" controlId="specialization">
+                <Form.Label>Specialization</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter specialization"
+                  value={specialization}
+                  onChange={(e) => setSpecialization(e.target.value)}
+                  onBlur={() => validateField("specialization")}
+                />
+                {errors.specialization && <div className="error-message">{errors.specialization}</div>}
+              </Form.Group>
+            )}
 
             <Button variant="primary" onClick={handleSignup}>
               Signup

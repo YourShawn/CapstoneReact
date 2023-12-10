@@ -1,7 +1,6 @@
 import axios from "axios";
 
-
-const baseURL = "http://localhost:8080";
+const baseURL = "/api/";
 
 const endpoints = {
   getPatientList: "/patients/getAllocatedPatientsList",
@@ -10,23 +9,35 @@ const endpoints = {
   addPatient: "/patients/add",
   getPatientDetail: "/patients/getPatientDetail",
   getPatientsPastMedicalRecords: "/MedicalRecords/getPatientsMedicalRecords",
-  getPrescriptionDetail:"/prescriptions/getPrescriptionDetail",
-  savePrescription:"/prescriptions/add",
-  saveMedicalRecords:"/MedicalRecords/add",
-  saveMedications:"/medications/addMedications"
+  getPrescriptionDetail: "/prescriptions/getPrescriptionDetail",
+  savePrescription: "/prescriptions/add",
+  saveMedicalRecords: "/MedicalRecords/add",
+  saveMedications: "/medications/addMedications",
+  addDoctor: "/doctors/add",
+  getDoctorId: "/doctors/getDoctorId",
+  addAllergy:"/allergies/add",
+  getPatientId:"/patients/getPatientId"
 };
+
 const config = {
   headers: {
     'Content-Type': 'application/json',
   },
 };
+
 class DoctorService {
-  getPatientList = () => {
-    return axios.post(`${baseURL}${endpoints.getPatientList}`, { assignedDoctor: 1 });
+  getDoctorId = (userId) => {
+    return axios.post(`${baseURL}${endpoints.getDoctorId}`, { userId: userId });
   };
 
-  getAppointmentList = () => {
-    return axios.post(`${baseURL}${endpoints.getAppointmentList}`, { doctorId: 1 });
+  getPatientList = async () => {
+    const doctorId = await this.getDoctorIdFromLocalStorage();
+    return axios.post(`${baseURL}${endpoints.getPatientList}`, { assignedDoctor: doctorId });
+  };
+
+  getAppointmentList = async () => {
+    const doctorId = await this.getDoctorIdFromLocalStorage();
+    return axios.post(`${baseURL}${endpoints.getAppointmentList}`, { doctorId: doctorId });
   };
 
   deleteAppointment = (appointmentId, deleteReason) => {
@@ -45,28 +56,54 @@ class DoctorService {
     return axios.post(`${baseURL}${endpoints.addPatient}`, formData, config);
   };
 
-  getPatientDetail = (patientId) => {
-    return axios.post(`${baseURL}${endpoints.getPatientDetail}`, { assignedDoctor: 1, patientId });
+  getPatientDetail = async (patientId) => {
+    const doctorId = await this.getDoctorIdFromLocalStorage();
+    return axios.post(`${baseURL}${endpoints.getPatientDetail}`, { assignedDoctor: doctorId, patientId });
   };
 
   getPatientsPastMedicalRecords = (patientId) => {
-    return axios.post(`${baseURL}${endpoints.getPatientsPastMedicalRecords}`, { patientId:patientId });
+    return axios.post(`${baseURL}${endpoints.getPatientsPastMedicalRecords}`, { patientId: patientId });
   };
 
   getPrescriptionDetail = (prescriptionId) => {
-    return axios.post(`${baseURL}${endpoints.getPrescriptionDetail}`, { prescriptionId:prescriptionId });
+    return axios.post(`${baseURL}${endpoints.getPrescriptionDetail}`, { prescriptionId: prescriptionId });
   };
 
-  savePrescription = (prescriptionData) => { 
-    return axios.post(`${baseURL}${endpoints.savePrescription}`,prescriptionData,config);
+  savePrescription = (prescriptionData) => {
+    return axios.post(`${baseURL}${endpoints.savePrescription}`, prescriptionData, config);
   };
 
   saveMedicalRecords = (medicalRecordsData) => {
-    return axios.post(`${baseURL}${endpoints.saveMedicalRecords}`,medicalRecordsData,config);
+    return axios.post(`${baseURL}${endpoints.saveMedicalRecords}`, medicalRecordsData, config);
   };
 
   saveMedications = (medicationRecords) => {
     return axios.post(`${baseURL}${endpoints.saveMedications}`, medicationRecords, config);
+  };
+
+  addDoctor = (doctorData) => {
+    return axios.post(`${baseURL}${endpoints.addDoctor}`, doctorData, config);
+  };
+
+  addAllergy = (allergyData) => {
+    return axios.post(`${baseURL}${endpoints.addAllergy}`, allergyData, config);
+  };
+
+  getPatientId = (userData) => {
+    return axios.post(`${baseURL}${endpoints.getPatientId}`, userData, config);
+  };
+
+  getDoctorIdFromLocalStorage = async () => {
+    const userId = localStorage.getItem("userId");
+    const response = await this.getDoctorId(userId);
+    const doctorId = response.data && response.data.data;
+
+    if (!doctorId) {
+      console.error("Doctor ID not found in local storage.");
+      throw new Error("Doctor ID not found.");
+    }
+
+    return doctorId;
   };
 }
 
