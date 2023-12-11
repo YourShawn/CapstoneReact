@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import Header from "../component/header";
 import Footer from "../component/footer";
 import { Button, Carousel, Form, InputGroup, Modal } from "react-bootstrap";
 import styles from "../styles/pages/home.module.scss";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -28,6 +30,19 @@ const Home = () => {
       title: "Innovative Care",
     },
   ];
+
+  const handleBookAppointment = () => {
+    // Check if there is a login token in local storage
+    const token = localStorage.getItem("loginToken");
+
+    if (token) {
+      // Redirect to the patient dashboard if token is found
+      navigate("/patient-dashboard");
+    } else {
+      // Redirect to the login page if no token is found
+      navigate("/login");
+    }
+  };
 
   return (
     <div className={styles.home_page}>
@@ -56,7 +71,7 @@ const Home = () => {
       </div>
       <div className={styles.book_appointment}>
         <h6>Click here to book appointment now</h6>
-        <button className="btn btn-primary">Book appointment</button>
+        <button className="btn btn-primary"  onClick={handleBookAppointment}>Book appointment</button>
       </div>
       <Footer />
       <Modal centered show={show} onHide={handleClose}>

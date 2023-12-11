@@ -12,7 +12,6 @@ class RegistrationService {
     return axios.post(`${baseURL}${endpoints.registerUser}`, userData);
   };
   getUserData = (userData) => {
-    console.log("userData in service:-->"+userData.emailAddress);
     return axios.post(`${baseURL}${endpoints.getUserData}`, userData);
   };
 }

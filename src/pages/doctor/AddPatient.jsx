@@ -18,7 +18,6 @@ const AddPatient = ({ show, handleClose, handleAddPatientSubmit }) => {
         gender: "",
         allergies: "",
         patientHistory: "",
-        allergies: "",
         allergen_name: "",
         allergy_type: "",
         severity: ""

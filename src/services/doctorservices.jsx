@@ -15,8 +15,9 @@ const endpoints = {
   saveMedications: "/medications/addMedications",
   addDoctor: "/doctors/add",
   getDoctorId: "/doctors/getDoctorId",
-  addAllergy:"/allergies/add",
-  getPatientId:"/patients/getPatientId"
+  addAllergy: "/allergies/add",
+  getPatientId: "/patients/getPatientId",
+  getDoctorName: "/doctors/getDoctorName"
 };
 
 const config = {
@@ -91,6 +92,11 @@ class DoctorService {
 
   getPatientId = (userData) => {
     return axios.post(`${baseURL}${endpoints.getPatientId}`, userData, config);
+  };
+
+  getDoctorName = () => {
+    const userId = localStorage.getItem("userId");
+    return axios.post(`${baseURL}${endpoints.getDoctorName}`, { userId: userId }, config);
   };
 
   getDoctorIdFromLocalStorage = async () => {
