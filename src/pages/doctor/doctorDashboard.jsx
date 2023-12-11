@@ -19,6 +19,7 @@ const SingleCard = ({ icon, title, count }) => {
 
 function DashboardContent() {
   const [counts, setCounts] = useState({ patientCount: 0, appointmentCount: 0 });
+  const [doctorName, setDoctorName] = useState('');
 
   useEffect(() => {
     // Use the DoctorService to fetch patient count
@@ -37,13 +38,22 @@ function DashboardContent() {
       .catch((error) => {
         console.error("Error fetching appointment count:", error);
       });
+
+      DoctorService.getDoctorName()
+      .then((response) => {
+        const name = response.data.data; // Assuming the response directly contains the doctor's name
+        setDoctorName(name);
+      })
+      .catch((error) => {
+        console.error('Error fetching doctor name:', error);
+      });
   }, []);
 
   return (
     <Container>
       {/* Welcome Message */}
       <div className={styles.doctorName}>
-        <h5>Hello, Doctor Name</h5>
+        <h5>Hello, {doctorName}</h5>
       </div>
 
       {/* Patient and Appointment Rows */}

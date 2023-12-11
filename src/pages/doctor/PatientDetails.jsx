@@ -49,7 +49,6 @@ function PatientDetails() {
       // Check if the response has a data property
       if (response && response.data) {
         const prescriptionDetails = response.data.data;
-        console.log("prescriptionDetails:", prescriptionDetails);
 
         // Update state with the fetched prescription details
         setSelectedPrescriptions(prescriptionDetails);
