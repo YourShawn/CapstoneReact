@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Table, Modal, Form, Alert } from "react-bootstrap";
+import { Container, Row, Col, Button, Table, Form, Alert } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import DoctorService from "../../services/doctorservices";
 import ReactPaginate from "react-paginate";
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PrescriptionModal from "./PrescriptionModal";
+
 
 
 function PatientDetails() {
@@ -169,21 +171,11 @@ function PatientDetails() {
     });
   };
 
-
-
-
-
-
   const handleDateChange = (date, index, field) => {
-
     const updatedMedicationRecords = [...medicationRecords];
-
     const updatedRecord = { ...updatedMedicationRecords[index] };
-
     updatedRecord[field] = date instanceof Date ? date : null;
-
     updatedMedicationRecords[index] = updatedRecord;
-
     setMedicationRecords(updatedMedicationRecords);
 
   };
@@ -228,10 +220,7 @@ function PatientDetails() {
             prescriptionId: prescriptionId
           }))
         };
-
-
-        await DoctorService.saveMedications(medicationsData.medications);
-        
+        await DoctorService.saveMedications(medicationsData.medications);     
       }
 
       setPrescriptionSubmitted(true);
@@ -249,8 +238,6 @@ function PatientDetails() {
       console.error("Error submitting prescription:", error);
     }
   };
-
-
 
 
   const shouldShowAddMore =
@@ -328,7 +315,6 @@ function PatientDetails() {
       {/* Options for Prescription and Lab Test */}
       <div className="my-4 d-flex justify-content-end">
         <Button variant="success" onClick={() => setShowRecordForm(true)} style={{ marginRight: '10px' }}>Add Prescription</Button>
-        <Button variant="info">Add Lab Test</Button>
       </div>
 
 
@@ -522,79 +508,12 @@ function PatientDetails() {
       </div>
 
       {/* Modal for viewing prescriptions */}
-      <Modal show={showModal} onHide={handleCloseModal} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>View Prescriptions</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-
-          {/* Check if selectedPrescriptions is not undefined and has data */}
-          {selectedPrescriptions && selectedPrescriptions.length > 0 ? (
-            <>
-              {/* Display Prescription Id, Prescription Date, and Notes for the first prescription */}
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th colSpan="2">Prescription Details</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>Prescription ID</strong></td>
-                    <td>{selectedPrescriptions[0].prescriptionId}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Prescription Date</strong></td>
-                    <td>{formatDate(selectedPrescriptions[0].prescriptionDate)}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Notes</strong></td>
-                    <td>{selectedPrescriptions[0].notes}</td>
-                  </tr>
-                </tbody>
-              </Table>
-
-
-              {/* Table for prescription details */}
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Medication Name</th>
-                    <th>Description</th>
-                    <th>Dosage</th>
-                    <th>Frequency</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedPrescriptions.map((detail) => (
-                    <tr key={detail.medicationId}>
-                      <td>{detail.medicationName}</td>
-                      <td>{detail.description}</td>
-                      <td>{detail.dosage}</td>
-                      <td>{detail.frequency}</td>
-                      <td>{formatDate(detail.startDate)}</td>
-                      <td>{formatDate(detail.endDate)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </>
-            ) : (
-              <div className="my-4 text-center bold-label">
-                <p>No medications were prescribed.</p>
-              </div>
-            )}
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <PrescriptionModal
+        showModal={showModal}
+        handleCloseModal={handleCloseModal}
+        selectedPrescriptions={selectedPrescriptions}
+        formatDate={formatDate}
+      />
 
     </Container>
   );

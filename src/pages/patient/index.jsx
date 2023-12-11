@@ -46,21 +46,6 @@ const PatientPanel = () => {
       navText: "prescriptions",
     },
     {
-      id: "messages",
-      navIcon: <ChatSquareDots />,
-      navText: "messages",
-    },
-    {
-      id: "documents",
-      navIcon: <FileEarmarkText />,
-      navText: "documents",
-    },
-    {
-      id: "settings",
-      navIcon: <Gear />,
-      navText: "settings",
-    },
-    {
       id: "logout",
       navIcon: <BoxArrowRight />,
       navText: "logout",
@@ -71,10 +56,6 @@ const PatientPanel = () => {
     appointments: <Appointment />,
     payments: <Payments />,
     prescriptions: <App/>
-    // prescriptions: <Patients />,
-    // messages: <Messeges />,
-    // documents: <DoctorDocuments />,
-    // settings: <Settings />,
   };
 
   const handleNavClick = (id) => {

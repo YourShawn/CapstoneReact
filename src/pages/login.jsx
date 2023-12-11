@@ -4,7 +4,9 @@ import Footer from "../component/footer";
 import { Form, Button, Dropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/auth.css";
-import { Modal } from "antd"
+import { Modal } from "antd";
+import registrationService from "../services/registrationService";
+
 
 const Login = () => {
   const nav = useNavigate();
@@ -12,52 +14,69 @@ const Login = () => {
   const [userID, setuserID] = useState("");
   const [password, setPassword] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
+
+  async function handleLogin() {
+    const url = "/api/login";
+    const data = {
+      username: userID,
+      password: password,
+      role: selectedRole,
+    };
   
-   async function handleLogin() {
-     const url = "/api/login";
-     const data = {
-       username: userID,
-       password: password,
-       role: selectedRole,
-     };
-     fetch(url, {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify(data), // Convert the data to JSON format
-     })
-       .then((response) => response.json()) // Assuming the server returns JSON
-       .then((data) => {
-         console.log("Success:", data);
-         if(data.code !== 200){
-             Modal.info({
-               title: "Login Failed",
-               content: (
-                 <div>
-                   <p>{data.message}</p>
-                 </div>
-               ),
-               onOk() {},
-             });
-            return;
-         }
-         localStorage.setItem("loginToken",data.data);
-        if (selectedRole === "Doctor") {
-          nav("/doctor-dashboard");
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await response.json();
+  
+      console.log("Success:", result);
+  
+      if (result.code !== 200) {
+        Modal.info({
+          title: "Login Failed",
+          content: <div><p>{result.message}</p></div>,
+          onOk() {},
+        });
+        return;
+      }
+  
+      localStorage.setItem("loginToken", result.data);
+      localStorage.setItem("userRole", selectedRole);
+  
+      // Fetch user data after successful login
+      if (result.data != null) {
+        const userDataResponse = await registrationService.getUserData({
+          emailAddress: userID,
+        });
+  
+        console.log("userDataResponse:", userDataResponse.data.data[0]);
+  
+        // Check if userDataResponse.data is an array and not empty
+        if (userDataResponse.data.data[0].userId !== null ) {
+          // Save user ID in localStorage
+          localStorage.setItem("userId", userDataResponse.data.data[0].userId);
+        } else {
+          console.error("User data not found or empty in the response.");
         }
-        if (selectedRole === "Patient") {
-          nav("/patient-dashboard");
-        }
-        if (selectedRole === "Admin") {
-          nav("/admin");
-        }
-        
-       })
-       .catch((error) => {
-         console.error("Error:", error);
-       });
-   }
+      }
+  
+      // Navigate to the dashboard based on the role
+      if (selectedRole === "Doctor") {
+        nav("/doctor-dashboard");
+      } else if (selectedRole === "Patient") {
+        nav("/patient-dashboard");
+      } else if (selectedRole === "Admin") {
+        nav("/admin");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }  
 
   return (
     <div>

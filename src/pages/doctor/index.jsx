@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import {
   BoxArrowRight,
   Calendar,
-  Capsule,
-  ChatSquareDots,
-  FileEarmarkText,
   Gear,
   HouseDoorFill,
   Person,
 } from "react-bootstrap-icons";
-import { useParams, Routes, Route, Outlet } from "react-router-dom";
+import { useParams, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import Footer from "../../component/footer";
 import Header from "../../component/header";
 import styles from "../../styles/pages/dashboard.module.scss";
@@ -25,6 +22,11 @@ import PatientDetails from "./PatientDetails";
 function DoctorPanel() {
   const { page = "dashboard" } = useParams(); // Set default value for page
   const [activeList, setActiveList] = useState(page);
+  const navigate = useNavigate();
+  const loginOut = () => {
+    localStorage.removeItem("loginToken");
+    navigate("/"); 
+  };
 
   const sidebarOptions = [
     {
@@ -55,8 +57,12 @@ function DoctorPanel() {
       id: "logout",
       navIcon: <BoxArrowRight />,
       navText: "logout",
+      onClick: loginOut,
     },
   ];
+
+
+
   const menuContent = {
     dashboard: <DashboardContent />,
     appointments: <Appointment />,

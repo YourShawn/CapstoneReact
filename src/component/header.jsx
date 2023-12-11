@@ -9,6 +9,11 @@ const Header = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Check if the user is logged in based on the presence of the login token
+  const isLoggedIn = localStorage.getItem("loginToken") !== null;
+   // Get the user's role from localStorage
+   const userRole = localStorage.getItem("userRole");
+
   return (
     <header className="header">
       <div className="container">
@@ -30,11 +35,15 @@ const Header = () => {
               <NavLink to="/">Home</NavLink>
               <NavLink to="/about">About</NavLink>
               <NavLink to="/contact">Contact us</NavLink>
-              <NavLink to="/login">Login</NavLink>
-              <NavLink to="/signup">Sign Up</NavLink>
-              <NavLink to="/profile">Profile</NavLink>
-              <NavLink to="/doctor-dashboard">Doctor Dashboard</NavLink>
-              <NavLink to="/patient-dashboard">Patient Dashboard</NavLink>
+              {/* Conditionally render dashboard links based on user's role */}
+              {isLoggedIn && userRole === "Doctor" && (
+                <NavLink to="/doctor-dashboard">Doctor Dashboard</NavLink>
+              )}
+              {isLoggedIn && userRole === "Patient" && (
+                <NavLink to="/patient-dashboard">Patient Dashboard</NavLink>
+              )}
+             {!isLoggedIn && <NavLink to="/login">Login</NavLink>}
+              {!isLoggedIn && <NavLink to="/signup">Sign Up</NavLink>}
             </nav>
           </Offcanvas>
         </div>
