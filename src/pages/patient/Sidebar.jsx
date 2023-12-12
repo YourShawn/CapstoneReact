@@ -12,18 +12,25 @@ import {
   Gear,
   BoxArrowRight,
 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 // Import individual content components
 import PatientDashboard from "./PatientDashboard";
 import Appointment from "./Appointment";
 import Payments from "./payments";
 
+
 function PSidebar() {
+  const nav = useNavigate();
   const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
 
   const handleMenuItemClick = (menuItem) => {
     setActiveMenuItem(menuItem);
   };
+   const loginOut = () => {
+     localStorage.removeItem("loginToken");
+     nav("/login");
+   };
 
   // Define content for each menu item
   const menuContent = {
@@ -49,21 +56,27 @@ function PSidebar() {
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("dashboard")}
-                    className={activeMenuItem === "dashboard" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "dashboard" ? "active-link" : ""
+                    }
                   >
                     <HouseDoorFill /> Dashboard
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("appointments")}
-                    className={activeMenuItem === "appointments" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "appointments" ? "active-link" : ""
+                    }
                   >
                     <Calendar /> Appointments
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("prescriptions")}
-                    className={activeMenuItem === "prescriptions" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "prescriptions" ? "active-link" : ""
+                    }
                   >
                     <Capsule /> Prescriptions
                   </Nav.Link>
@@ -71,7 +84,9 @@ function PSidebar() {
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("payments")}
-                    className={activeMenuItem === "payments" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "payments" ? "active-link" : ""
+                    }
                   >
                     <Capsule /> Payments
                   </Nav.Link>
@@ -79,28 +94,34 @@ function PSidebar() {
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("messages")}
-                    className={activeMenuItem === "messages" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "messages" ? "active-link" : ""
+                    }
                   >
                     <ChatSquareDots /> Messages
                   </Nav.Link>
-                  
+
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("documents")}
-                    className={activeMenuItem === "documents" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "documents" ? "active-link" : ""
+                    }
                   >
                     <FileEarmarkText /> Documents
                   </Nav.Link>
                   <Nav.Link
                     href="#"
                     onClick={() => handleMenuItemClick("settings")}
-                    className={activeMenuItem === "settings" ? "active-link" : ""}
+                    className={
+                      activeMenuItem === "settings" ? "active-link" : ""
+                    }
                   >
                     <Gear /> Settings
                   </Nav.Link>
                   <Nav.Link
                     href="#"
-                    onClick={() => handleMenuItemClick("logout")}
+                    onClick={() => loginOut()}
                     className={activeMenuItem === "logout" ? "active-link" : ""}
                   >
                     <BoxArrowRight /> Logout
