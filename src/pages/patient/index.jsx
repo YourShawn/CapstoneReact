@@ -6,6 +6,7 @@ import {
   HouseDoorFill,
   CreditCard
 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 import Footer from "../../component/footer";
 import Header from "../../component/header";
 import styles from "../../styles/pages/dashboard.module.scss";
@@ -17,7 +18,13 @@ import App from "./pastPrescriptions";
 
 const PatientPanel = () => {
   const [activeList, setActiveList] = useState("dashboard");
-  
+  const navigate = useNavigate();
+  const loginOut = () => {
+    localStorage.removeItem("loginToken");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    navigate("/login");
+  };
 
 
   const sidebarOptions = [
@@ -55,6 +62,9 @@ const PatientPanel = () => {
   };
 
   const handleNavClick = (id) => {
+    if (id === "logout") {
+      loginOut();
+    }
     setActiveList(id);
   };
 
