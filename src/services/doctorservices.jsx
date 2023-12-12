@@ -53,7 +53,9 @@ class DoctorService {
     return axios.post(`${baseURL}${endpoints.deleteAppointment}`, { appointmentId, status });
   };
 
-  addPatient = (formData) => {
+  addPatient = async (formData) => {
+    const doctorId = await this.getDoctorIdFromLocalStorage();
+    formData.assignedDoctor = doctorId;
     return axios.post(`${baseURL}${endpoints.addPatient}`, formData, config);
   };
 
@@ -70,15 +72,19 @@ class DoctorService {
     return axios.post(`${baseURL}${endpoints.getPrescriptionDetail}`, { prescriptionId: prescriptionId });
   };
 
-  savePrescription = (prescriptionData) => {
+  savePrescription = async (prescriptionData) => {
+    const doctorId = await this.getDoctorIdFromLocalStorage();
+    prescriptionData.assignedDoctor = doctorId;
     return axios.post(`${baseURL}${endpoints.savePrescription}`, prescriptionData, config);
   };
 
-  saveMedicalRecords = (medicalRecordsData) => {
+  saveMedicalRecords = async (medicalRecordsData) => {
+    const doctorId = await this.getDoctorIdFromLocalStorage();
+    medicalRecordsData.doctorId = doctorId;
     return axios.post(`${baseURL}${endpoints.saveMedicalRecords}`, medicalRecordsData, config);
   };
 
-  saveMedications = (medicationRecords) => {
+  saveMedications = async (medicationRecords) => {
     return axios.post(`${baseURL}${endpoints.saveMedications}`, medicationRecords, config);
   };
 

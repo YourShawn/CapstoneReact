@@ -25,7 +25,9 @@ function DoctorPanel() {
   const navigate = useNavigate();
   const loginOut = () => {
     localStorage.removeItem("loginToken");
-    navigate("/"); 
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    navigate("/login");
   };
 
   const sidebarOptions = [
@@ -57,7 +59,6 @@ function DoctorPanel() {
       id: "logout",
       navIcon: <BoxArrowRight />,
       navText: "logout",
-      onClick: loginOut,
     },
   ];
 
@@ -71,16 +72,19 @@ function DoctorPanel() {
         <Route path="/" element={<Patients />} />
         <Route path="add-patient" element={<AddPatient />} />
         <Route path="patient/:patientId" element={<Outlet />}>
-        <Route index element={<PatientDetails />} />
-      </Route> 
+          <Route index element={<PatientDetails />} />
+        </Route>
       </Routes>
     ),
-    
+
     settings: <Settings />,
     "add-patient": <AddPatient />,
   };
 
   const handleNavClick = (id) => {
+    if (id === "logout") {
+      loginOut();
+    }
     setActiveList(id);
   };
 
