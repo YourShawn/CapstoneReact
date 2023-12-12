@@ -29,6 +29,7 @@ function PSidebar() {
   };
    const loginOut = () => {
      localStorage.removeItem("loginToken");
+     console.log("loginOut");
      nav("/login");
    };
 
