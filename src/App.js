@@ -19,6 +19,9 @@ import "./styles/App.css";
 import PatientDetails from "./pages/doctor/PatientDetails";
 import AdminUserSidebar from "./pages/admin/AdminUserSidebar";
 import AdminDoctorsDetailBar from "./pages/admin/AdminDoctorsDetailBar";
+
+import AdminDoctorsEditBar from "./pages/admin/AdminDoctorsEditBar";
+
 import AdminPatientDetailBar from "./pages/admin/AdminPatientDetailBar";
 import AdminAppointmentDetailBar from "./pages/admin/AdminAppointmentDetailBar";
 import AdminUserDetailBar from "./pages/admin/AdminUserDetailBar";
@@ -56,6 +59,10 @@ function App() {
           <Route
             path="/admin/doctor/info"
             element={<AdminDoctorsDetailBar />}
+          ></Route>
+          <Route
+            path="/admin/doctor/edit"
+            element={<AdminDoctorsEditBar/>}
           ></Route>
           <Route
             path="/admin/patient/info"

@@ -10,6 +10,11 @@ function AdminDoctorDetail({doctorId}) {
   function goBack() {
     nav("/doctors");
   }
+   function goEdit(id) {
+    // alert(111);
+     nav("/admin/doctor/edit?doctorId=" + id);
+     
+   }
   const [doctorData,setDoctorData] = useState(null);
 
   async function findAppointmentInfo(doctorId) {
@@ -56,6 +61,9 @@ function AdminDoctorDetail({doctorId}) {
         <Form.Item label=" ">
           <Button type="primary" onClick={goBack}>
             Back
+          </Button>{" "}
+          <Button type="primary" onClick={()=>{goEdit(doctorData?.doctorId)}} danger>
+            Edit
           </Button>
         </Form.Item>
       </Form>

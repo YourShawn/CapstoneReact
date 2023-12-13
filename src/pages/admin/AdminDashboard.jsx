@@ -119,6 +119,9 @@ function DashboardContent() {
       },
     });
     const infoData = await info.json();
+    // if (!infoData.data) {
+    //   window.location.href = "/login"; 
+    // }
     setUsername(infoData.data);
   }
 
