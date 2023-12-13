@@ -15,6 +15,7 @@ function DashboardContent() {
   const[onlineDoctorTotal,setOnlineDoctorTotal] = useState(0)
   const [appointmentTotal, setAppointmentTotal] = useState(0);
   const [patientTotal, setPatientTotal] = useState(0);
+  const [todayPrescription, setTodayPrescription] = useState(0);
   const [appointmentYear, setAppointmentYear] = useState([
     "2020",
     "2021",
@@ -106,7 +107,11 @@ function DashboardContent() {
     console.log(findGroupAppointmentYearData.data);
 
 
-
+    const findPrescriptionToday = await fetch("/api/prescriptions/findToday");
+    const findPrescriptionTodayDate = await findPrescriptionToday.json();
+    if (findPrescriptionTodayDate.data) {
+      setTodayPrescription(findPrescriptionTodayDate.data);
+    }
    }
 
    
@@ -194,7 +199,7 @@ function DashboardContent() {
               <div style={smallLabelStyle}>
                 <InfoCircleFill size={20} /> Today Prescriptions
               </div>
-              <div style={bigNumberStyle}>456</div>
+              <div style={bigNumberStyle}>{todayPrescription}</div>
             </Card.Body>
           </Card>
         </Col>
