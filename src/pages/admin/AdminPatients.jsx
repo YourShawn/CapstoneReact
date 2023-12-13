@@ -75,7 +75,7 @@ function Patients() {
                   {patient.dateOfBirth &&
                     dayjs().diff(dayjs(patient.dateOfBirth), "year")}
                 </td>
-                <td>{patient.healthCardId}</td>
+                <td>{patient.gender}</td>
                 <td>{patient.healthCardId}</td>
                 <td>
                   <Link
