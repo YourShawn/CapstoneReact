@@ -54,6 +54,7 @@ function onSearchDoctor(){
           onSearch={()=>{onSearchDoctor()}}
         />
       </Space.Compact>
+      <hr/>
       {/* <Input
         placeholder="Doctor Name"
         onChange={(e) => setSearchDoctorName(e.target.value)}
