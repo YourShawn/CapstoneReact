@@ -1,47 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { Table, Container } from "react-bootstrap";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom for navigation
-import { Pagination } from "antd";
+import { Pagination, Input, Space } from "antd";
 
 
 function AdminDoctors() {
-  // Sample patient data (replace with actual data)
-  // const doctorsData = [
-  //   { id: 1, DoctorsName: "Doctor A", gender: "Male" },
-  //   { id: 2, DoctorsName: "Doctor B", gender: "Female" },
-  //   // Add more patient entries here
-  // ];
-
+const { Search } = Input;
 
     const [current, setCurrent] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
-    const [doctorsData, setDoctorsData] = useState([
-      { id: 1, DoctorsName: "Doctor A", gender: "Male" },
-      { id: 2, DoctorsName: "Doctor B", gender: "Female" },
-    ]);
+    const [doctorsData, setDoctorsData] = useState();
+    const [searchDoctorName, setSearchDoctorName] = useState("");
 
-    async function findDoctorsPage(pageNum) {
+    async function findDoctorsPage(pageNum, searchDoctorName) {
       const responseDoctor = await fetch(
-        "/api/doctors/findPage?pageSize=10&pageNum=" + pageNum
+        "/api/doctors/findPage?pageSize=10&pageNum=" +
+          pageNum +
+          "&doctorName=" +
+          searchDoctorName
       );
       const responseDoctorData = await responseDoctor.json();
       setDoctorsData(responseDoctorData.data.list);
       setTotalPage(responseDoctorData.data.total);
     }
+// const onSearch: = (value, _e, info) => console.log(info?.source, value);
+function onSearchDoctor(){
+  findDoctorsPage(0, searchDoctorName);
+}
+
 
     const onChange = (page) => {
       console.log(page);
       setCurrent(page);
-      findDoctorsPage(page - 1);
+      findDoctorsPage(page - 1, searchDoctorName);
     };
 
     useEffect(() => {
-      findDoctorsPage(0);
+      findDoctorsPage(0, searchDoctorName);
     }, []);
 
   return (
     <Container>
       <h3>Doctors</h3>
+      <Space.Compact>
+        <Search
+          addonBefore="Name"
+          placeholder="Input doctor name"
+          allowClear
+          onChange={(e) => {
+            setSearchDoctorName(e.target.value);
+          }}
+          value={searchDoctorName}
+          onSearch={()=>{onSearchDoctor()}}
+        />
+      </Space.Compact>
+      {/* <Input
+        placeholder="Doctor Name"
+        onChange={(e) => setSearchDoctorName(e.target.value)}
+      /> */}
       <Table striped bordered hover>
         <thead>
           <tr>
