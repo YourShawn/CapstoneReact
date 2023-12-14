@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import {
+    Button,
+    Form,
+    Row,
+    Col,
+  } from "react-bootstrap";
 import PatientService from "../../services/PatientService";
+import styles from "../../styles/pages/patient.module.scss";
 
 function BookAppointment({ patientName, onAppointmentAdded }) {
     const [formData, setFormData] = useState({
@@ -79,44 +85,60 @@ function BookAppointment({ patientName, onAppointmentAdded }) {
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Group>
-                <Form.Label className="bold-label ">Patient Name : </Form.Label>
-                <span className="bold-label"> {patientName}</span>
-            </Form.Group>
-            <Form.Group className="py-3">
-                <Form.Label>Date</Form.Label>
-                <Form.Control type="date" name="date" value={formData.date} onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Time</Form.Label>
-                <Form.Control type="time" name="time" value={formData.time} onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Reason for Appointment</Form.Label>
-                <Form.Control type="text" name="reasonForAppointment" value={formData.reasonForAppointment} onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Select Doctor</Form.Label>
-                <Form.Control as="select" name="doctor" value={formData.doctor} onChange={handleChange} required>
-                    <option value="">Select a doctor</option>
-                    {doctorList.map((doctor) => (
-                        <option key={doctor.doctorId} value={doctor.doctorId}>
-                            {doctor.doctorName}
-                        </option>
-                    ))}
-                </Form.Control>
-            </Form.Group>
-            <Form.Group className="py-3">
-                <Button type="submit" variant="primary">
-                    Add Appointment
-                </Button>
-                <Button variant="danger" onClick={handleCancel} className="ml-2" style={{ marginLeft: '10px' }}>
-                    Cancel
-                </Button>
+        <div className={styles.whiteBox_wrap}>
+            <h3 className="heading3">Book an Appointment</h3>
+            <Form onSubmit={handleSubmit}>
 
-            </Form.Group>
-        </Form>
+                <Form.Group>
+                    <Form.Label className="bold-label ">Patient Name : </Form.Label>
+                    <span className="bold-label"> {patientName}</span>
+                </Form.Group>
+                <Row className="g-3">
+                    <Col md={6}>
+                        <Form.Group className="py-3">
+                            <Form.Label>Date</Form.Label>
+                            <Form.Control type="date" name="date" value={formData.date} onChange={handleChange} required />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group>
+                            <Form.Label>Time</Form.Label>
+                            <Form.Control type="time" name="time" value={formData.time} onChange={handleChange} required />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group>
+                            <Form.Label>Reason for Appointment</Form.Label>
+                            <Form.Control type="text" name="reasonForAppointment" value={formData.reasonForAppointment} onChange={handleChange} required />
+                        </Form.Group>
+                    </Col>
+
+                    <Col md={6}>
+                        <Form.Group>
+                            <Form.Label>Select Doctor</Form.Label>
+                            <Form.Control as="select" name="doctor" value={formData.doctor} onChange={handleChange} required>
+                                <option value="">Select a doctor</option>
+                                {doctorList.map((doctor) => (
+                                    <option key={doctor.doctorId} value={doctor.doctorId}>
+                                        {doctor.doctorName}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="d-flex gap-2 justify-content-center">
+                            <Button variant="danger" onClick={handleCancel} className="text-right">
+                                Cancel
+                            </Button>
+                            <Button type="submit" variant="primary">
+                                Add Appointment
+                            </Button>
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
     );
 }
 
