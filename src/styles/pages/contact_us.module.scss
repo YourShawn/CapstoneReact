@@ -1,0 +1,36 @@
+.contact_page {
+  background-color: #fefefe;
+  padding: 3rem 0;
+}
+.box_wrapper {
+  background-color: #fff;
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 0px 0px 20px -9px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  .left_content {
+    flex-basis: 50%;
+    padding: 0 1rem;
+  }
+  .right_content {
+    padding: 0 0 0 1rem;
+    flex-basis: 50%;
+
+    iframe {
+      width: 100%;
+      min-height: 100%;
+      aspect-ratio: 1.5/1;
+    }
+  }
+
+  @media (max-width: 991px) {
+    gap: 2rem;
+    padding: 1rem;
+
+    .left_content,
+    .right_content {
+      flex-basis: 100%;
+    }
+  }
+}

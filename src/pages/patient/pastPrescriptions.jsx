@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PatientService from '../../services/PatientService';
 import ReactPaginate from "react-paginate";
-import { Container, Row, Col, Button, Table} from "react-bootstrap";
+import { Container, Row, Col, Button, Table } from "react-bootstrap";
 import ViewPrescriptions from './ViewPrescriptions';
+import styles from "../../styles/pages/patient.module.scss";
 
 
 const formatDate = (string) => {
@@ -13,7 +14,7 @@ const formatDate = (string) => {
 
 const PastMedicalRecords = ({ pastMedicalData }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10); 
+  const [itemsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -51,75 +52,77 @@ const PastMedicalRecords = ({ pastMedicalData }) => {
 
   return (
     <Container className="mt-4">
-      <h3>Past Medical Records</h3>
-      <Table striped bordered hover className="my-4">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Date of Visit</th>
-            <th>Diagnosis</th>
-            <th>Treatment</th>
-            <th>Visit Status</th>
-            <th>View Prescriptions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((record) => (
-            <tr key={record.recordId}>
-              <td>{record.recordId}</td>
-              <td>{formatDate(record.dateOfVisit)}</td>
-              <td>{record.diagnosis}</td>
-              <td>{record.treatment}</td>
-              <td>{record.visitStatus}</td>
-              <td>
-                {/* Add a button or link to view prescriptions */}
-                <Button
-                  variant="primary"
-                  onClick={() => openViewPrescription(record.prescriptionId)}>
-                  View Prescriptions
-                </Button>
-              </td>
+      <h3 className="heading3">Past Medical Records</h3>
+      <div className={styles.custom_table_wrapper}>
+        <Table className={styles.custom_table} bordered>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date of Visit</th>
+              <th>Diagnosis</th>
+              <th>Treatment</th>
+              <th>Visit Status</th>
+              <th>View Prescriptions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {currentItems.map((record) => (
+              <tr key={record.recordId}>
+                <td>{record.recordId}</td>
+                <td>{formatDate(record.dateOfVisit)}</td>
+                <td>{record.diagnosis}</td>
+                <td>{record.treatment}</td>
+                <td>{record.visitStatus}</td>
+                <td>
+                  {/* Add a button or link to view prescriptions */}
+                  <Button
+                    variant="primary"
+                    onClick={() => openViewPrescription(record.prescriptionId)}>
+                    View Prescriptions
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
       <Row className="mb-4">
-          <Col md={6}>
-            <p>
-              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, pastMedicalData.length)} of {pastMedicalData.length} entries
-            </p>
-          </Col>
-          <Col md={6} className="d-flex justify-content-end">
-            <ReactPaginate
-              previousLabel={<span className="pagination-symbol">{"<"}</span>}
-              nextLabel={<span className="pagination-symbol">{">"}</span>}
-              breakLabel={"..."}
-              pageCount={Math.ceil(pastMedicalData.length / itemsPerPage)}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageChange}
-              containerClassName={"pagination justify-content-end"}
-              subContainerClassName={"pages pagination"}
-              pageClassName={"page-item"}
-              activeClassName={"active"}
-              activeLinkClassName={"active-link"}
-              pageLinkClassName={"page-link"}
-              breakClassName={"page-item"}
-              previousClassName={"page-item"}
-              previousLinkClassName={"page-link"}
-              nextClassName={"page-item"}
-              nextLinkClassName={"page-link"}
-            />
-          </Col>
-        </Row>
-        <ViewPrescriptions
+        <Col md={6}>
+          <p>
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, pastMedicalData.length)} of {pastMedicalData.length} entries
+          </p>
+        </Col>
+        <Col md={6} className="d-flex justify-content-end">
+          <ReactPaginate
+            previousLabel={<span className="pagination-symbol">{"<"}</span>}
+            nextLabel={<span className="pagination-symbol">{">"}</span>}
+            breakLabel={"..."}
+            pageCount={Math.ceil(pastMedicalData.length / itemsPerPage)}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination justify-content-end"}
+            subContainerClassName={"pages pagination"}
+            pageClassName={"page-item"}
+            activeClassName={"active"}
+            activeLinkClassName={"active-link"}
+            pageLinkClassName={"page-link"}
+            breakClassName={"page-item"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+          />
+        </Col>
+      </Row>
+      <ViewPrescriptions
         showModal={showModal}
         handleCloseModal={handleCloseModal}
         selectedPrescriptions={selectedPrescriptions}
         formatDate={formatDate}
       />
     </Container>
-    
+
   );
 };
 
@@ -145,7 +148,7 @@ const App = () => {
     <div>
       <PastMedicalRecords pastMedicalData={pastMedicalData} />
       {/* Modal for viewing prescriptions */}
-     
+
     </div>
   );
 };

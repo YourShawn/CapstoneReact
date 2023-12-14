@@ -1,0 +1,25 @@
+.custom_table_wrapper {
+  overflow-x: auto;
+}
+.custom_table {
+  border-radius: 10px;
+  th {
+    white-space: nowrap;
+  }
+  th,
+  td {
+    background-color: #fff;
+    padding: 10px 12px;
+    &:last-child {
+      white-space: nowrap;
+      width: 1%;
+      padding: 10px 20px;
+    }
+  }
+  thead {
+    th {
+      background-color: #035e55;
+      color: #fff;
+    }
+  }
+}

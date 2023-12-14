@@ -25,6 +25,7 @@ import AdminDoctorsEditBar from "./pages/admin/AdminDoctorsEditBar";
 import AdminPatientDetailBar from "./pages/admin/AdminPatientDetailBar";
 import AdminAppointmentDetailBar from "./pages/admin/AdminAppointmentDetailBar";
 import AdminUserDetailBar from "./pages/admin/AdminUserDetailBar";
+import PageNotFound from "./pages/notFound";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
             path="/admin/user/info"
             element={<AdminUserDetailBar />}
           ></Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

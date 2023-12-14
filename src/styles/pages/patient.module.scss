@@ -1,0 +1,29 @@
+.whiteBox_wrap {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0px 0px 16px -10px rgba(0, 0, 0, 0.2);
+}
+.custom_table_wrapper {
+  overflow-x: auto;
+}
+.custom_table {
+  border-radius: 10px;
+  th,
+  td {
+    background-color: #fff;
+    padding: 10px 12px;
+    &:last-child {
+      white-space: nowrap;
+      width: 1%;
+      padding: 10px 20px;
+    }
+  }
+  thead {
+    th {
+      background-color: #035e55;
+      color: #fff;
+    }
+  }
+}

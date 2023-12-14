@@ -174,7 +174,7 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div className="auth_wrapper">
       <Header />
       <main className="main">
         <div className="heading auth-container">

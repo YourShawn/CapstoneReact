@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Table, Container } from "react-bootstrap";
 import PatientService from "../../services/PatientService";
 import BookAppointment from "./BookAppointment";
+import styles from "../../styles/pages/patient.module.scss";
 
 function formatDate(string) {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
@@ -43,38 +44,40 @@ function Appointments() {
 
   return (
     <Container>
-      <h3>Appointments</h3>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Reason For Appointment</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointmentData.map((appointment) => {
-            const dateTimeParts = formatDate(appointment.appointmentDateTime).split(",");
-            const date = dateTimeParts[0];
-            const time = dateTimeParts[1];
-
-            return (
-              <tr key={appointment.appointmentId}>
-                <td>{appointment.appointmentId}</td>
-                <td>{date}</td>
-                <td>{time}</td>
-                <td>{appointment.status}</td>
-                <td>{appointment.reasonForAppointment}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-
-      <h3>Book an Appointment</h3>
       <BookAppointment patientName={patientName} onAppointmentAdded={triggerFetch} />
+      <div className="pt-3">
+        <h3 className="heading3">Appointments</h3>
+        <div className={styles.custom_table_wrapper}>
+          <Table className={styles.custom_table} bordered>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Reason For Appointment</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointmentData.map((appointment) => {
+                const dateTimeParts = formatDate(appointment.appointmentDateTime).split(",");
+                const date = dateTimeParts[0];
+                const time = dateTimeParts[1];
+
+                return (
+                  <tr key={appointment.appointmentId}>
+                    <td>{appointment.appointmentId}</td>
+                    <td>{date}</td>
+                    <td>{time}</td>
+                    <td>{appointment.status}</td>
+                    <td>{appointment.reasonForAppointment}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+      </div>
     </Container>
   );
 }

@@ -4,6 +4,7 @@ import DoctorService from "../../services/doctorservices";
 import ReactPaginate from "react-paginate";
 import { Alert } from 'react-bootstrap';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import styles from "../../styles/pages/doctor.module.scss";
 
 function formatDate(string) {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
@@ -106,7 +107,7 @@ function Appointments() {
 
   return (
     <Container>
-      <h3>Appointments</h3>
+      <h3 className="heading3">Appointments</h3>
       {successMessage && (
         <Alert variant="success" onClose={handleCancelSuccessMessage} dismissible>
           <div className="d-flex justify-content-between align-items-center">
@@ -114,7 +115,7 @@ function Appointments() {
           </div>
         </Alert>
       )}
-      <Table striped bordered hover>
+      <Table bordered className={styles.custom_table}>
         <thead>
           <tr>
             <th>ID</th>
@@ -170,19 +171,27 @@ function Appointments() {
           </p>
         </Col>
         <Col md={6} className="d-flex justify-content-end">
-          <ReactPaginate
-            previousLabel={"<"}
-            nextLabel={">"}
-            breakLabel={"..."}
-            pageCount={Math.ceil(appointmentData.length / itemsPerPage)}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={handlePageChange}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            activeClassName={"active"}
-          />
-        </Col>
+            <ReactPaginate
+              previousLabel={<span className="pagination-symbol">{"<"}</span>}
+              nextLabel={<span className="pagination-symbol">{">"}</span>}
+              breakLabel={"..."}
+              pageCount={Math.ceil(appointmentData.length / itemsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageChange}
+              containerClassName={"pagination justify-content-end"}
+              subContainerClassName={"pages pagination"}
+              pageClassName={"page-item"}
+              activeClassName={"active"}
+              activeLinkClassName={"active-link"}
+              pageLinkClassName={"page-link"}
+              breakClassName={"page-item"}
+              previousClassName={"page-item"}
+              previousLinkClassName={"page-link"}
+              nextClassName={"page-item"}
+              nextLinkClassName={"page-link"}
+            />
+          </Col>
       </Row>
 
       <Modal show={showDeleteModal} onHide={handleDeleteCancel}>

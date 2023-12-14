@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, FormControl, Row, Col, Button } from "react-bootstrap";
-import { Link, Route, Routes } from "react-router-dom";
+import { ArrowLeftCircleFill } from "react-bootstrap-icons";
+import { Route, Routes } from "react-router-dom";
 import DoctorService from "../../services/doctorservices";
 import ReactPaginate from "react-paginate";
 import AddPatient from "./AddPatient";
 import PatientDetails from "./PatientDetails";
+import styles from "../../styles/pages/doctor.module.scss";
 
 function calculateAge(dateOfBirth) {
   const birthDate = new Date(dateOfBirth);
@@ -23,6 +25,7 @@ function calculateAge(dateOfBirth) {
 }
 
 function Patients() {
+  const [patientDetail, setPatientDetail] = useState(null);
   const [patientsData, setPatientsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Display 10 items per page
@@ -33,21 +36,14 @@ function Patients() {
   const handleCloseAddPatientModal = () => setShowAddPatientModal(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await DoctorService.getPatientList();
-        if (response && response.data && response.data.data) {
-          setPatientsData(response.data.data);
-        } else {
-          console.error("Error: Response or data is undefined");
-        }
-      } catch (error) {
-        console.error("Error in fetching updated patient list:", error);
-      }
-    };
-  
-    fetchData();
-  }, [currentPage]);
+    DoctorService.getPatientList()
+      .then((response) => {
+        setPatientsData(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error from fetching data:", error);
+      });
+  }, []);
 
   // Filter the data based on the search term
   const filteredData = patientsData.filter((patient) => {
@@ -64,109 +60,119 @@ function Patients() {
     handleShowAddPatientModal();
   };
 
-  const handleAddPatientSubmit = async () => {
-    try {
-      const response = await DoctorService.getPatientList();
-      if (response && response.data && response.data.data) {
-        setPatientsData(response.data.data);
-      } else {
-        console.error("Error: Response or data is undefined");
-      }
-    } catch (error) {
-      console.error("Error in fetching updated patient list:", error);
-    }
+  const handleAddPatientSubmit = (formData) => {
+    handleCloseAddPatientModal();
   };
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  
-
   return (
     <Container>
-      <h2 className="my-4">Welcome to Doctor Dashboard</h2>
-
-      <Row className="mb-4">
-        <Col md={12} className="d-flex justify-content-end">
-          <Button variant="success" onClick={handleAddPatientClick}>
-            Add Patient
+      {patientDetail ? (
+        <>
+          <Button
+            variant="danger"
+            className="d-flex gap-2 align-items-center"
+            onClick={() => setPatientDetail(null)}
+          >
+            <ArrowLeftCircleFill /> Back
           </Button>
-        </Col>
-      </Row>
+          <PatientDetails patientId={patientDetail} />
+        </>
+      ) : (
+        <div>
+          <h2 className="my-4">Welcome to Doctor Dashboard</h2>
+          <Row className="mb-4">
+            <Col md={12} className="d-flex justify-content-end">
+              <Button variant="success" onClick={handleAddPatientClick}>
+                Add Patient
+              </Button>
+            </Col>
+          </Row>
 
-      <AddPatient
-        show={showAddPatientModal}
-        handleClose={handleCloseAddPatientModal}
-        handleAddPatientSubmit={handleAddPatientSubmit}
-      />
-
-
-      <Row className="mb-4">
-        <Col md={6} className="d-flex justify-content-end">
-          <FormControl
-            type="text"
-            placeholder="Search by name"
-            onChange={(e) => setSearchTerm(e.target.value)}
+          <AddPatient
+            show={showAddPatientModal}
+            handleClose={handleCloseAddPatientModal}
+            handleAddPatientSubmit={handleAddPatientSubmit}
           />
-        </Col>
-      </Row>
 
-      <Table striped bordered hover className="my-4">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Patient Name</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((patient) => (
-            <tr key={patient.patientId}>
-              <td>{patient.patientId}</td>
-              <td>{`${patient.firstName} ${patient.lastName}`}</td>
-              <td>{calculateAge(patient.dateOfBirth)}</td>
-              <td>{patient.gender}</td>
-              <td>
-                <Link to={`/patient/${patient.patientId}`}>View Details</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+          <Row className="mb-4">
+            <Col md={6} className="d-flex justify-content-end">
+              <FormControl
+                type="text"
+                placeholder="Search by name"
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Col>
+          </Row>
+          <div className={styles.custom_table_wrapper}>
+            <Table bordered className={styles.custom_table}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Patient Name</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((patient) => (
+                  <tr key={patient.patientId}>
+                    <td>{patient.patientId}</td>
+                    <td>{`${patient.firstName} ${patient.lastName}`}</td>
+                    <td>{calculateAge(patient.dateOfBirth)}</td>
+                    <td>{patient.gender}</td>
+                    <td>
+                      <Button
+                        className="btn btn-link"
+                        onClick={() => setPatientDetail(patient.patientId)}
+                      >
+                        View Detail
+                      </Button>
+                      {/* <Link to={`/patient/${patient.patientId}`}>View Details</Link> */}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
 
-      <Row className="mb-4">
-        <Col md={6}>
-          <p>
-            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
-          </p>
-        </Col>
-        <Col md={6} className="d-flex justify-content-end">
-          <ReactPaginate
-            previousLabel={<span className="pagination-symbol">{"<"}</span>}
-            nextLabel={<span className="pagination-symbol">{">"}</span>}
-            breakLabel={"..."}
-            pageCount={Math.ceil(filteredData.length / itemsPerPage)}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={handlePageChange}
-            containerClassName={"pagination justify-content-end"}
-            subContainerClassName={"pages pagination"}
-            pageClassName={"page-item"}
-            activeClassName={"active"}
-            activeLinkClassName={"active-link"}
-            pageLinkClassName={"page-link"}
-            breakClassName={"page-item"}
-            previousClassName={"page-item"}
-            previousLinkClassName={"page-link"}
-            nextClassName={"page-item"}
-            nextLinkClassName={"page-link"}
-          />
-        </Col>
-      </Row>
+          <Row className="mb-4">
+            <Col md={6}>
+              <p>
+                Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+                {Math.min(currentPage * itemsPerPage, filteredData.length)} of{" "}
+                {filteredData.length} entries
+              </p>
+            </Col>
+            <Col md={6} className="d-flex justify-content-end">
+              <ReactPaginate
+                previousLabel={<span className="pagination-symbol">{"<"}</span>}
+                nextLabel={<span className="pagination-symbol">{">"}</span>}
+                breakLabel={"..."}
+                pageCount={Math.ceil(filteredData.length / itemsPerPage)}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageChange}
+                containerClassName={"pagination justify-content-end"}
+                subContainerClassName={"pages pagination"}
+                pageClassName={"page-item"}
+                activeClassName={"active"}
+                activeLinkClassName={"active-link"}
+                pageLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+              />
+            </Col>
+          </Row>
+        </div>
+      )}
 
       <Routes>
         <Route path="/patient/:patientId" element={<PatientDetails />} />

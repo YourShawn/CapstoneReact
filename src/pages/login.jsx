@@ -79,7 +79,7 @@ const Login = () => {
   }  
 
   return (
-    <div>
+    <div className="auth_wrapper">
       <Header />
       <main className="main">
         <div className="heading auth-container">
@@ -135,9 +135,6 @@ const Login = () => {
                 If new user, <Link to="/signup">Sign up here</Link>
               </div>
 
-              <div className="forget-password-link">
-                <Link to="/forgot-password">Forgot password? CLICK HERE</Link>
-              </div>
             </div>
           </Form>
         </div>
