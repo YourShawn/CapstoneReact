@@ -9,11 +9,11 @@ import PrescriptionModal from "./PrescriptionModal";
 
 
 
-function PatientDetails() {
+function PatientDetails({ patientId }) {
   const [pastMedicalData, setPastMedicalData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Display 10 items per page  
-  const { patientId } = useParams();
+  
 
 
   const [patientDetails, setPatientDetails] = useState({

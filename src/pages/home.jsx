@@ -61,14 +61,6 @@ const Home = () => {
           </Carousel.Item>
         ))}
       </Carousel>
-      <div className={styles.search_doctor}>
-        <InputGroup className={styles.search_wrapper}>
-          <Form.Control placeholder="Search by doctor name" />
-          <Button variant="primary" id="button-addon1" onClick={handleShow}>
-            search
-          </Button>
-        </InputGroup>
-      </div>
       <div className={styles.book_appointment}>
         <h6>Click here to book appointment now</h6>
         <button className="btn btn-primary"  onClick={handleBookAppointment}>Book appointment</button>
