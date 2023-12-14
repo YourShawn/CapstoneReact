@@ -159,6 +159,20 @@ function Signup() {
 
           console.log("Doctor added successfully:", doctorResponse.data);
 
+        } else if (role === "Patient") {
+          const patientData = {
+            firstName: fullName.split(" ")[0] || "",
+            lastName: fullName.split(" ")[1] || "",
+            emailAddress,
+            phoneNumber,
+            address: "Canada",
+            userId: userId
+          };
+
+          const doctorResponse = await doctorService.addPatient(patientData);
+
+          console.log("Doctor added successfully:", doctorResponse.data);
+
         }
 
         setSuccessMessage("Registration successful.");

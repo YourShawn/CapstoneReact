@@ -15,7 +15,8 @@ const endpoints = {
     addAppointment: "/appointments/add",
     getPatientsPastMedicalRecords: "/MedicalRecords/getPatientsMedicalRecords",
     getPrescriptionDetail: "/prescriptions/getPrescriptionDetail",
-    getUpcomingAppointments:"/appointments/getUpcomingAppointments"
+    getUpcomingAppointments:"/appointments/getUpcomingAppointments",
+    updatePatient:"/patients/update"
 };
 
 class PatientService {
@@ -53,6 +54,10 @@ class PatientService {
     getUpcomingAppointments = async () => {
         const patientId = await this.getPatientIdFromLocalStorage();
         return axios.post(`${baseURL}${endpoints.getUpcomingAppointments}`, { patientId: patientId });
+    };
+
+    updatePatient =  (formData) => {
+        return axios.post(`${baseURL}${endpoints.updatePatient}`, formData, config);
     };
 
     getPatientIdFromLocalStorage = async () => {

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button, Col, Row } from "react-bootstrap";
 import DoctorService from "../../services/doctorservices";
+import registrationService from "../../services/registrationService";
+import PatientService from "../../services/PatientService";
+
 
 
 const AddPatient = ({ show, handleClose, handleAddPatientSubmit }) => {
@@ -230,7 +233,28 @@ const AddPatient = ({ show, handleClose, handleAddPatientSubmit }) => {
                 delete updatedFormData.severity;
                 await DoctorService.addPatient(updatedFormData);
                 console.log("Updated Form Data after processing:", updatedFormData);
+                const userData = {
+                    fullName: updatedFormData.firstName + updatedFormData.lastName,
+                    emailAddress: updatedFormData.email,
+                    password: updatedFormData.firstName + updatedFormData.lastName,
+                    phoneNumber: updatedFormData.phoneNumber,
+                    role: "Patient"
+                };
+                console.log("Updated Form Data after processing:", updatedFormData);
+                const registrationResponse = await registrationService.registerUser(userData);
 
+                const userDataResponse = await registrationService.getUserData({
+                    emailAddress: updatedFormData.email,
+                });
+
+                const userId = userDataResponse.data.data[0].userId;
+                const responsePatient = await DoctorService.getPatientId(updatedFormData);
+                if (responsePatient.data) {
+                    updatedFormData.patientId = responsePatient.data.data;
+                    updatedFormData.userId = userId;
+                    const updatePatient = await PatientService.updatePatient(updatedFormData);
+                    console.log("updatePatient Data after processing:", updatePatient);
+                }
 
 
                 if (haveAllergies) {
